@@ -26,15 +26,16 @@ ext{
     ]
     
 	spring = [
-            web           : "org.springframework:spring-web:${SpringVersion}",
-            webmvc        : "org.springframework:spring-webmvc:${SpringVersion}",
-            core          : "org.springframework:spring-core:${SpringVersion}",
-            beans         : "org.springframework:spring-beans:${SpringVersion}",
-            expression    : "org.springframework:spring-expression:${SpringVersion}",
-            contextSupport: "org.springframework:spring-context-support:${SpringVersion}",
-            jdbc          : "org.springframework:spring-jdbc:${SpringVersion}",
-            mongo         : "org.springframework.data:spring-data-mongodb:1.6.0.RELEASE",
-            test          : "org.springframework:spring-test:${SpringVersion}"
+            web           	: "org.springframework:spring-web:${SpringVersion}",
+            webmvc        	: "org.springframework:spring-webmvc:${SpringVersion}",
+            core          	: "org.springframework:spring-core:${SpringVersion}",
+            beans         	: "org.springframework:spring-beans:${SpringVersion}",
+            expression    	: "org.springframework:spring-expression:${SpringVersion}",
+            contextSupport	: "org.springframework:spring-context-support:${SpringVersion}",
+            jdbc          	: "org.springframework:spring-jdbc:${SpringVersion}",
+            jpa         	: "org.springframework.data:spring-data-jpa:1.8.1.RELEASE",
+			mongo 			: "org.springframework.data:spring-data-mongodb:1.7.1.RELEASE",
+            test          	: "org.springframework:spring-test:${SpringVersion}"
     ]
     
     javax = [
@@ -80,5 +81,6 @@ repositories {
 
 dependencies {
     compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider
+	compile spring.mongo,spring.jpa,spring.test,spring.core
     testCompile testng,jmock
 }
