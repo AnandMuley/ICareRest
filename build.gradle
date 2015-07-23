@@ -67,7 +67,8 @@ ext{
 	
 	jersey = [
 		server : 'com.sun.jersey:jersey-server:1.8',
-		inmemorytest : 'com.sun.jersey.jersey-test-framework:jersey-test-framework-inmemory:1.8'
+		inmemorytest : 'com.sun.jersey.jersey-test-framework:jersey-test-framework-inmemory:1.8',
+		spring : 'com.sun.jersey.contribs:jersey-spring:1.8'
 	]
 	
 	// Test Dependencies
@@ -80,7 +81,7 @@ repositories {
 }
 
 dependencies {
-    compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider
-	compile spring.mongo,spring.jpa,spring.test,spring.core
-    testCompile testng,jmock
+    compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider,jersey.spring
+	compile spring.mongo,spring.jpa,spring.test,spring.core,spring.web
+    testCompile testng,jmock,hamcrest.core
 }

@@ -2,29 +2,40 @@ package abm.icare.controllers;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import abm.icare.beans.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import abm.icare.dtos.PatientDto;
+import abm.icare.services.PatientService;
+
+@Component
 @Path("patient")
 public class PatientResource {
 
+	@Autowired
+	private PatientService patientService;
+
 	@GET
-	@Path("find")
+	@Path("findbyid")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findPatient(@QueryParam("id") String id) {
-		Patient patient = new Patient();
-		patient.setEmailId("rock@gmail.com");
-		patient.setFirstName("Rock");
-		patient.setId(id);
-		patient.setLastName("Johnson");
-		patient.setMiddleName("Albert");
+		PatientDto patient = patientService.findById(id);
 		return Response.ok(patient).build();
+	}
+
+	@PUT
+	@Path("update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updatePatient(PatientDto patientDto) {
+		return Response.ok().build();
 	}
 
 }

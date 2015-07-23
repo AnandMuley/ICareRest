@@ -1,16 +1,12 @@
-package abm.icare.beans;
+package abm.icare.dtos;
 
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 @Scope("prototype")
 @Component
-@Document(collection = "patients")
-public class Patient {
+public class PatientDto {
 
-	@Id
 	private String id;
 	private String firstName;
 	private String middleName;
@@ -59,7 +55,7 @@ public class Patient {
 
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", firstName=" + firstName
+		return "PatientDto [id=" + id + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName
 				+ ", emailId=" + emailId + "]";
 	}
