@@ -1,6 +1,6 @@
 package abm.icare.controllers;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 import org.springframework.http.HttpStatus;
 import org.testng.annotations.AfterClass;
@@ -17,8 +17,6 @@ import com.sun.jersey.test.framework.JerseyTest;
 public class PatientResourceTest extends JerseyTest {
 
 	private PatientService mockPatientService;
-	
-	@BEfore
 	
 	public PatientResourceTest() {
 		super("abm.icare.controllers");
