@@ -47,7 +47,8 @@ ext{
     
     hamcrest = [
             core   : "org.hamcrest:hamcrest-core:${HamcrestVersion}",
-            library: "org.hamcrest:hamcrest-library:${HamcrestVersion}"
+            library: "org.hamcrest:hamcrest-library:${HamcrestVersion}",
+            all : "org.hamcrest:hamcrest-all:${HamcrestVersion}"
     ]
     
     mongoDB = "org.mongodb:mongo-java-driver:2.12.2"
@@ -68,7 +69,9 @@ ext{
 	jersey = [
 		server : 'com.sun.jersey:jersey-server:1.8',
 		inmemorytest : 'com.sun.jersey.jersey-test-framework:jersey-test-framework-inmemory:1.8',
-		spring : 'com.sun.jersey.contribs:jersey-spring:1.8'
+		spring : 'com.sun.jersey.contribs:jersey-spring:1.8',
+		client : 'com.sun.jersey:jersey-client:1.8',
+		json : 'com.sun.jersey:jersey-json:1.8'
 	]
 	
 	// Test Dependencies
@@ -81,7 +84,11 @@ repositories {
 }
 
 dependencies {
-    compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider,jersey.spring
-	compile spring.mongo,spring.jpa,spring.test,spring.core,spring.web
-    testCompile testng,jmock,hamcrest.core
+   testCompile ('junit:junit-dep:4.+') {
+            exclude module : 'hamcrest'
+            exclude module : 'hamcrest-core'
+    }
+    compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider,jersey.spring,jersey.client,jersey.json
+	compile spring.mongo,spring.jpa,spring.core,spring.web
+    testCompile testng,jmock,jersey.client,spring.test
 }

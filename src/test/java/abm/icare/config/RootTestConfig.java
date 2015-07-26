@@ -1,7 +1,7 @@
 package abm.icare.config;
 
 import org.jmock.Mockery;
-import org.testng.annotations.BeforeClass;
+import org.junit.BeforeClass;
 
 public class RootTestConfig {
 

@@ -1,20 +1,16 @@
 package abm.icare.dataproviders;
 
-import org.testng.annotations.DataProvider;
+import abm.icare.dtos.PatientDto;
 
-import abm.icare.beans.Patient;
+public abstract class PatientDataProvider {
 
-public class PatientDataProvider {
-
-	@DataProvider(name = "validPatient")
-	public static Object[][] getValidPatient() {
-		final Patient patient = new Patient();
-		patient.setEmailId("rock@gmail.com");
-		patient.setFirstName("Rock");
-		patient.setId("ID101");
-		patient.setLastName("Johnson");
-		patient.setMiddleName("Albert");
-		return new Object[][] { { patient } };
+	public static PatientDto createPatient() {
+		PatientDto patientDto = new PatientDto();
+		patientDto.setEmailId("rock@gmail.com");
+		patientDto.setFirstName("Rock");
+		patientDto.setLastName("Johnson");
+		patientDto.setMiddleName("Albert");
+		return patientDto;
 	}
 
 }

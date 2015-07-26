@@ -1,30 +1,56 @@
 package abm.icare.controllers;
 
-import static org.testng.Assert.assertEquals;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import org.springframework.http.HttpStatus;
+import org.jmock.Expectations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import abm.icare.beans.Patient;
+import abm.icare.config.RootMockConfig;
+import abm.icare.dataproviders.PatientDataProvider;
+import abm.icare.dtos.PatientDto;
 import abm.icare.services.PatientService;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.core.DefaultResourceConfig;
+import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.api.json.JSONConfiguration;
+import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.LowLevelAppDescriptor;
 
-public class PatientResourceTest extends JerseyTest {
+public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 
 	private PatientService mockPatientService;
-	
-	public PatientResourceTest() {
-		super("abm.icare.controllers");
-	}
+	private LowLevelAppDescriptor appDescriptor;
+
+	@Autowired
+	private PatientResource patientResource;
 
 	@BeforeClass
-	public void setUp() throws Exception {
+	public void init() throws Exception {
+		patientResource = new PatientResource();
+		mockPatientService = context.mock(PatientService.class);
+		ReflectionTestUtils.setField(patientResource, "patientService",
+				mockPatientService);
+		ResourceConfig config = appDescriptor.getResourceConfig();
+		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING,
+				Boolean.TRUE);
+		config.getSingletons().add(patientResource);
 		super.setUp();
+	}
+
+	@Override
+	protected AppDescriptor configure() {
+		appDescriptor = new LowLevelAppDescriptor.Builder(
+				new DefaultResourceConfig()).build();
+		return appDescriptor;
 	}
 
 	@AfterClass
@@ -35,34 +61,70 @@ public class PatientResourceTest extends JerseyTest {
 	@Test
 	public void shouldReturnPatient() {
 		// GIVEN
-		String uid = "UID101";
+		final PatientDto patientDto = PatientDataProvider.createPatient();
+		final String uid = "UID101";
+		patientDto.setId("UID201");
 
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientService).findById(with(uid));
+				will(returnValue(patientDto));
+			}
+		});
 		// WHEN
-		WebResource webResource = resource().path("patient/findbyid")
+		WebResource webResource = resource().path(PATIENT_FIND_BY_ID)
 				.queryParam("id", uid);
 		ClientResponse response = webResource.get(ClientResponse.class);
-		Patient patient = response.getEntity(Patient.class);
+		PatientDto actual = response.getEntity(PatientDto.class);
 
 		// THEN
-		assertEquals(response.getStatus(), 200);
-		assertEquals(patient.getEmailId(), "rock@gmail.com");
-		assertEquals(patient.getFirstName(), "Rock");
-		assertEquals(patient.getId(), "UID101");
-		assertEquals(patient.getLastName(), "Johnson");
-		assertEquals(patient.getMiddleName(), "Albert");
+		Assert.assertEquals(response.getStatus(), 200);
+		Assert.assertEquals(actual.getEmailId(), "rock@gmail.com");
+		Assert.assertEquals(actual.getFirstName(), "Rock");
+		Assert.assertEquals(actual.getId(), "UID201");
+		Assert.assertEquals(actual.getLastName(), "Johnson");
+		Assert.assertEquals(actual.getMiddleName(), "Albert");
 	}
 
 	@Test
 	public void shouldReturnNotFoundStatus() {
 		// GIVEN
-		String uid = "UID101";
+		final String uid = "UID101";
 
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientService).findById(with(uid));
+				will(returnValue(null));
+			}
+		});
 		// WHEN
-		WebResource webResource = resource().path("patient/findbyid")
+		WebResource webResource = resource().path(PATIENT_FIND_BY_ID)
 				.queryParam("id", uid);
 		ClientResponse response = webResource.get(ClientResponse.class);
 
 		// THEN
-		assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
+		Assert.assertEquals(response.getStatus(),
+				Response.Status.NOT_FOUND.getStatusCode());
+	}
+
+	@Test
+	public void shouldCreatePatient() {
+		// GIVEN
+		final PatientDto patientDto = PatientDataProvider.createPatient();
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientService).createPatient(with(patientDto));
+				will(returnValue(null));
+			}
+		});
+		// WHEN
+		ClientResponse response = resource().path(PATIENT_CREATE)
+				.type(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.post(ClientResponse.class, patientDto);
+
+		// THEN
+		// assertEquals(response.getStatus(),
+		// Response.Status.CREATED.getStatusCode());
 	}
 }

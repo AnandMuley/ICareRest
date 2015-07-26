@@ -1,33 +1,13 @@
 package abm.icare.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import abm.icare.beans.Patient;
 import abm.icare.dtos.PatientDto;
-import abm.icare.populators.PatientDataPopulator;
-import abm.icare.repositories.PatientRepository;
 
-@Service
-public class PatientService {
+public interface PatientService {
 
-	@Autowired
-	private PatientRepository patientRepository;
+	PatientDto findById(String id);
 
-	@Autowired
-	private PatientDataPopulator patientDataPopulator;
+	PatientDto update(PatientDto patientDto);
 
-	public PatientDto findById(String id) {
-		Patient patient = patientRepository.findOne(id);
-		patientDataPopulator.populatePatientDto(patient);
-		return patientDataPopulator.getPatientDto();
-	}
-
-	public PatientDto update(PatientDto patientDto) {
-		patientDataPopulator.populatePatient(patientDto);
-		patientRepository.save(patientDataPopulator.getPatient());
-		patientDto.setId(patientDataPopulator.getPatient().getId());
-		return patientDto;
-	}
+	PatientDto createPatient(PatientDto patientDto);
 
 }

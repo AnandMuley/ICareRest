@@ -1,14 +1,12 @@
 package abm.icare.repositories;
 
-import static org.testng.Assert.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import abm.icare.beans.Patient;
 import abm.icare.config.SpringTestNGSupport;
 
-@Test
 public class PatientRepositoryTest extends SpringTestNGSupport {
 
 	@Autowired
@@ -24,13 +22,13 @@ public class PatientRepositoryTest extends SpringTestNGSupport {
 		patient.setMiddleName("Albert");
 		patientRepository.save(patient);
 
-		assertNotNull(patient.getId());
+		Assert.assertNotNull(patient.getId());
 
 		// WHEN
 		Patient actual = patientRepository.findOne(patient.getId());
 
 		// THEN
-		assertEquals(actual.getEmailId(), "rock@gmail.com");
+		Assert.assertEquals(actual.getEmailId(), "rock@gmail.com");
 	}
 
 }
