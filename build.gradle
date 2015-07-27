@@ -89,6 +89,6 @@ dependencies {
             exclude module : 'hamcrest-core'
     }
     compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider,jersey.spring,jersey.client,jersey.json
-	compile spring.mongo,spring.jpa,spring.core,spring.web
+	compile spring.mongo,spring.jpa,spring.core,spring.web,spring.webmvc
     testCompile testng,jmock,jersey.client,spring.test
 }

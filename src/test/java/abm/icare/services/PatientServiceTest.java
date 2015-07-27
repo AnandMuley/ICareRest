@@ -1,76 +1,74 @@
 package abm.icare.services;
 
 import org.jmock.Expectations;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import abm.icare.actions.SavePatientAction;
 import abm.icare.beans.Patient;
-import abm.icare.config.RootTestConfig;
+import abm.icare.config.RootMockConfig;
+import abm.icare.dataproviders.PatientDataProvider;
 import abm.icare.dtos.PatientDto;
 import abm.icare.populators.PatientDataPopulator;
 import abm.icare.repositories.PatientRepository;
 
-public class PatientServiceTest extends RootTestConfig {
+public class PatientServiceTest implements RootMockConfig {
 
 	private PatientRepository mockPatientRepository;
 	private PatientServiceImpl patientService;
 	private PatientDataPopulator patientDataPopulator;
-	private PatientDto patientDto;
-	private Patient patient;
+	private ApplicationContext mockApplicationContext;
 
-	@BeforeClass
+	@BeforeTest
 	public void initData() {
+		patientService = new PatientServiceImpl();
+		patientDataPopulator = new PatientDataPopulator();
+		mockApplicationContext = context.mock(ApplicationContext.class);
 		mockPatientRepository = context.mock(PatientRepository.class);
 		ReflectionTestUtils.setField(patientService, "patientRepository",
 				mockPatientRepository);
-	}
-
-	@BeforeTest
-	public void setUp() {
-		patient = new Patient();
-		patientDto = new PatientDto();
-		patientService = new PatientServiceImpl();
-		patientDataPopulator = new PatientDataPopulator();
-
 		ReflectionTestUtils.setField(patientService, "patientDataPopulator",
 				patientDataPopulator);
-		ReflectionTestUtils.setField(patientDataPopulator, "patientDto",
-				patientDto);
-		ReflectionTestUtils.setField(patientDataPopulator, "patient", patient);
-
+		ReflectionTestUtils.setField(patientDataPopulator, "context",
+				mockApplicationContext);
 	}
 
 	@Test
 	public void shouldFindPatientById() {
 		// GIVEN
-		final Patient patient = null;
-		final String id = "PID101";
+		final PatientDto patientDto = new PatientDto();
+		final Patient patient = PatientDataProvider.createPatient();
+		final String name = "Albert";
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockPatientRepository).findOne(with(id));
+				oneOf(mockPatientRepository).findByFirstName(with(name));
 				will(returnValue(patient));
+				oneOf(mockApplicationContext).getBean(with(PatientDto.class));
+				will(returnValue(patientDto));
 			}
 		});
 
 		// WHEN
-		PatientDto actual = patientService.findById(id);
+		PatientDto actual = patientService.findByName(name);
 
 		// THEN
 		Assert.assertNotNull(actual);
-		Assert.assertEquals(actual.getEmailId(), "rock@gmail.com");
-		Assert.assertEquals(actual.getFirstName(), "Rock");
-		Assert.assertEquals(actual.getId(), "ID101");
-		Assert.assertEquals(actual.getLastName(), "Johnson");
-		Assert.assertEquals(actual.getMiddleName(), "Albert");
+		Assert.assertEquals(actual.getEmailId(), "albert@gmail.com");
+		Assert.assertEquals(actual.getFirstName(), "Albert");
+		Assert.assertEquals(actual.getId(), "UID201");
+		Assert.assertEquals(actual.getLastName(), "Einstein");
+		Assert.assertEquals(actual.getMiddleName(), "Kevin");
 	}
 
 	@Test
 	public void shouldUpdatePatient() {
 		// GIVEN
+		final Patient patient = new Patient();
+		final PatientDto patientDto = new PatientDto();
 		patientDto.setEmailId("roc@gmail.com");
 		patientDto.setFirstName("alia");
 		patientDto.setLastName("brewer");
@@ -79,6 +77,10 @@ public class PatientServiceTest extends RootTestConfig {
 		context.checking(new Expectations() {
 			{
 				oneOf(mockPatientRepository).save(with(patient));
+				oneOf(mockApplicationContext).getBean(with(PatientDto.class));
+				will(returnValue(patientDto));
+				oneOf(mockApplicationContext).getBean(with(Patient.class));
+				will(returnValue(patient));
 			}
 		});
 
@@ -91,6 +93,29 @@ public class PatientServiceTest extends RootTestConfig {
 		Assert.assertEquals(actual.getFirstName(), "alia");
 		Assert.assertEquals(actual.getLastName(), "brewer");
 		Assert.assertEquals(actual.getMiddleName(), "oliver");
+	}
+
+	@Test
+	public void shouldCreatePatient() {
+		// GIVEN
+		final Patient patient = new Patient();
+		final PatientDto patientDto = PatientDataProvider.createPatientDto();
+		final SavePatientAction savePatientAction = new SavePatientAction();
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientRepository).insert(with(patient));
+				will(savePatientAction);
+				oneOf(mockApplicationContext).getBean(with(Patient.class));
+				will(returnValue(patient));
+			}
+		});
+		// WHEN
+		PatientDto actual = patientService.createPatient(patientDto);
+
+		// THEN
+		Assert.assertEquals(actual.getId(), "UID201");
+
 	}
 
 }

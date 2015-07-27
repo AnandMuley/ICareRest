@@ -18,25 +18,24 @@ public class PatientServiceImpl implements PatientService {
 	private PatientDataPopulator patientDataPopulator;
 
 	@Override
-	public PatientDto findById(String id) {
-		Patient patient = patientRepository.findOne(id);
-		patientDataPopulator.populatePatientDto(patient);
-		return patientDataPopulator.getPatientDto();
+	public PatientDto findByName(String firstName) {
+		Patient patient = patientRepository.findByFirstName(firstName);
+		return patientDataPopulator.populatePatientDto(patient);
 	}
 
 	@Override
 	public PatientDto update(PatientDto patientDto) {
-		patientDataPopulator.populatePatient(patientDto);
-		patientRepository.save(patientDataPopulator.getPatient());
-		patientDto.setId(patientDataPopulator.getPatient().getId());
+		Patient patient = patientDataPopulator.populatePatient(patientDto);
+		patientRepository.save(patient);
+		patientDto = patientDataPopulator.populatePatientDto(patient);
 		return patientDto;
 	}
 
 	@Override
 	public PatientDto createPatient(PatientDto patientDto) {
-		patientDataPopulator.populatePatient(patientDto);
-		patientRepository.save(patientDataPopulator.getPatient());
-		patientDto.setId(patientDataPopulator.getPatient().getId());
+		Patient patient = patientDataPopulator.populatePatient(patientDto);
+		patientRepository.insert(patient);
+		patientDto.setId(patient.getId());
 		return patientDto;
 	}
 }

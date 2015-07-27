@@ -11,6 +11,7 @@
 
     <mongo:mongo host="127.0.0.1" port="27017" />
     <mongo:db-factory dbname="icare" />
+    <mongo:repositories base-package="abm.icare.repositories"/>
 
     <!-- Removing _class from Collections -->
 

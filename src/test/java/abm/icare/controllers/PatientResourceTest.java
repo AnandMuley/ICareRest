@@ -5,6 +5,7 @@ import javax.ws.rs.core.Response;
 
 import org.jmock.Expectations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -61,19 +62,19 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 	@Test
 	public void shouldReturnPatient() {
 		// GIVEN
-		final PatientDto patientDto = PatientDataProvider.createPatient();
-		final String uid = "UID101";
+		final PatientDto patientDto = PatientDataProvider.createPatientDto();
 		patientDto.setId("UID201");
+		final String name = "Rock";
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockPatientService).findById(with(uid));
+				oneOf(mockPatientService).findByName(with(name));
 				will(returnValue(patientDto));
 			}
 		});
 		// WHEN
-		WebResource webResource = resource().path(PATIENT_FIND_BY_ID)
-				.queryParam("id", uid);
+		WebResource webResource = resource().path(PATIENT_FIND_BY_NAME)
+				.queryParam("name", name);
 		ClientResponse response = webResource.get(ClientResponse.class);
 		PatientDto actual = response.getEntity(PatientDto.class);
 
@@ -89,17 +90,17 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 	@Test
 	public void shouldReturnNotFoundStatus() {
 		// GIVEN
-		final String uid = "UID101";
+		final String name = "Rock";
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockPatientService).findById(with(uid));
+				oneOf(mockPatientService).findByName(with(name));
 				will(returnValue(null));
 			}
 		});
 		// WHEN
-		WebResource webResource = resource().path(PATIENT_FIND_BY_ID)
-				.queryParam("id", uid);
+		WebResource webResource = resource().path(PATIENT_FIND_BY_NAME)
+				.queryParam("name", name);
 		ClientResponse response = webResource.get(ClientResponse.class);
 
 		// THEN
@@ -110,7 +111,7 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 	@Test
 	public void shouldCreatePatient() {
 		// GIVEN
-		final PatientDto patientDto = PatientDataProvider.createPatient();
+		final PatientDto patientDto = PatientDataProvider.createPatientDto();
 		context.checking(new Expectations() {
 			{
 				oneOf(mockPatientService).createPatient(with(patientDto));
@@ -124,7 +125,27 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 				.post(ClientResponse.class, patientDto);
 
 		// THEN
-		// assertEquals(response.getStatus(),
-		// Response.Status.CREATED.getStatusCode());
+		Assert.assertEquals(response.getStatus(),
+				Response.Status.CREATED.getStatusCode());
+	}
+
+	@Test
+	public void shouldUpdatePatient() {
+		// GIVEN
+		final PatientDto patientDto = PatientDataProvider.createPatientDto();
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientService).update(with(patientDto));
+			}
+		});
+		// WHEN
+		ClientResponse response = resource().path(PATIENT_UPDATE)
+				.type(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.put(ClientResponse.class, patientDto);
+
+		// THEN
+		Assert.assertEquals(response.getStatus(), HttpStatus.OK.value());
 	}
 }

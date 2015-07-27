@@ -5,8 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
-@Scope("prototype")
 @Component
+@Scope("prototype")
 @Document(collection = "patients")
 public class Patient {
 

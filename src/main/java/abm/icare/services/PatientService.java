@@ -4,7 +4,7 @@ import abm.icare.dtos.PatientDto;
 
 public interface PatientService {
 
-	PatientDto findById(String id);
+	PatientDto findByName(String id);
 
 	PatientDto update(PatientDto patientDto);
 

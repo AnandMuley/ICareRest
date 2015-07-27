@@ -6,4 +6,6 @@ import abm.icare.beans.Patient;
 
 public interface PatientRepository extends MongoRepository<Patient, String> {
 
+	Patient findByFirstName(String firstName);
+
 }
