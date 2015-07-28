@@ -7,20 +7,32 @@ public abstract class PatientDataProvider {
 
 	public static PatientDto createPatientDto() {
 		PatientDto patientDto = new PatientDto();
+		patientDto.setAddrLine1("Address Line 1");
+		patientDto.setAddrLine2("Address Line 2");
+		patientDto.setCity("Mumbai");
 		patientDto.setEmailId("rock@gmail.com");
 		patientDto.setFirstName("Rock");
 		patientDto.setLastName("Johnson");
 		patientDto.setMiddleName("Albert");
+		patientDto.setMobileNo(7823078320l);
+		patientDto.setState("Maharashtra");
+		patientDto.setZipCode("411020");
 		return patientDto;
 	}
 
 	public static Patient createPatient() {
 		Patient patient = new Patient();
+		patient.setAddrLine1("Address Line 1");
+		patient.setAddrLine2("Address Line 2");
+		patient.setCity("Mumbai");
 		patient.setEmailId("albert@gmail.com");
 		patient.setFirstName("Albert");
 		patient.setId("UID201");
 		patient.setLastName("Einstein");
 		patient.setMiddleName("Kevin");
+		patient.setMobileNo(7850078600l);
+		patient.setState("Maharashtra");
+		patient.setZipCode("411030");
 		return patient;
 	}
 
