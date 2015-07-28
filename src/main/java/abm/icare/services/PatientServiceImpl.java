@@ -1,5 +1,7 @@
 package abm.icare.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +20,15 @@ public class PatientServiceImpl implements PatientService {
 	private PatientDataPopulator patientDataPopulator;
 
 	@Override
-	public PatientDto findByName(String firstName) {
-		Patient patient = patientRepository.findByFirstName(firstName);
-		return patientDataPopulator.populatePatientDto(patient);
+	public List<PatientDto> findByName(String searchTxt) {
+		List<Patient> patientsFound = patientRepository.findByName(searchTxt);
+		return patientDataPopulator.populatePatientDtos(patientsFound);
 	}
 
 	@Override
 	public PatientDto update(PatientDto patientDto) {
 		Patient patient = patientDataPopulator.populatePatient(patientDto);
 		patientRepository.save(patient);
-		patientDto = patientDataPopulator.populatePatientDto(patient);
 		return patientDto;
 	}
 

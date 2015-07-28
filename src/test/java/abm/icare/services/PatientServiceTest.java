@@ -1,5 +1,7 @@
 package abm.icare.services;
 
+import java.util.List;
+
 import org.jmock.Expectations;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -40,28 +42,24 @@ public class PatientServiceTest implements RootMockConfig {
 	public void shouldFindPatientById() {
 		// GIVEN
 		final PatientDto patientDto = new PatientDto();
-		final Patient patient = PatientDataProvider.createPatient();
+		final List<Patient> patients = PatientDataProvider.createPatients();
 		final String name = "Albert";
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockPatientRepository).findByFirstName(with(name));
-				will(returnValue(patient));
-				oneOf(mockApplicationContext).getBean(with(PatientDto.class));
+				oneOf(mockPatientRepository).findByName(with(name));
+				will(returnValue(patients));
+				allowing(mockApplicationContext)
+						.getBean(with(PatientDto.class));
 				will(returnValue(patientDto));
 			}
 		});
 
 		// WHEN
-		PatientDto actual = patientService.findByName(name);
+		List<PatientDto> actual = patientService.findByName(name);
 
 		// THEN
-		Assert.assertNotNull(actual);
-		Assert.assertEquals(actual.getEmailId(), "albert@gmail.com");
-		Assert.assertEquals(actual.getFirstName(), "Albert");
-		Assert.assertEquals(actual.getId(), "UID201");
-		Assert.assertEquals(actual.getLastName(), "Einstein");
-		Assert.assertEquals(actual.getMiddleName(), "Kevin");
+		Assert.assertEquals(actual.size(), 4);
 	}
 
 	@Test

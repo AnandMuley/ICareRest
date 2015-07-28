@@ -1,10 +1,12 @@
 package abm.icare.services;
 
+import java.util.List;
+
 import abm.icare.dtos.PatientDto;
 
 public interface PatientService {
 
-	PatientDto findByName(String id);
+	List<PatientDto> findByName(String id);
 
 	PatientDto update(PatientDto patientDto);
 

@@ -1,5 +1,8 @@
 package abm.icare.dataproviders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import abm.icare.beans.Patient;
 import abm.icare.dtos.PatientDto;
 
@@ -34,6 +37,26 @@ public abstract class PatientDataProvider {
 		patient.setState("Maharashtra");
 		patient.setZipCode("411030");
 		return patient;
+	}
+
+	public static List<PatientDto> createPatientDtos() {
+		List<PatientDto> dtos = new ArrayList<PatientDto>();
+		for (int i = 0; i < 4; i++) {
+			PatientDto patientDto = createPatientDto();
+			patientDto.setId("PID20" + i);
+			dtos.add(patientDto);
+		}
+		return dtos;
+	}
+
+	public static List<Patient> createPatients() {
+		List<Patient> patients = new ArrayList<Patient>();
+		for (int i = 0; i < 4; i++) {
+			Patient patient = createPatient();
+			patient.setId("UID10" + i);
+			patients.add(patient);
+		}
+		return patients;
 	}
 
 }

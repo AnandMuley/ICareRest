@@ -1,5 +1,7 @@
 package abm.icare.controllers;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import abm.icare.dtos.PatientDto;
 import abm.icare.services.PatientService;
@@ -28,11 +31,11 @@ public class PatientResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findPatient(@QueryParam("name") String name) {
-		PatientDto patient = patientService.findByName(name);
-		if (patient == null) {
+		List<PatientDto> patients = patientService.findByName(name);
+		if (CollectionUtils.isEmpty(patients)) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-		return Response.ok(patient).build();
+		return Response.ok(patients).build();
 	}
 
 	@POST

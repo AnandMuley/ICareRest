@@ -1,5 +1,7 @@
 package abm.icare.controllers;
 
+import java.util.List;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -18,6 +20,7 @@ import abm.icare.dtos.PatientDto;
 import abm.icare.services.PatientService;
 
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.core.DefaultResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
@@ -62,29 +65,27 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 	@Test
 	public void shouldReturnPatient() {
 		// GIVEN
-		final PatientDto patientDto = PatientDataProvider.createPatientDto();
-		patientDto.setId("UID201");
+		final List<PatientDto> patientDtos = PatientDataProvider
+				.createPatientDtos();
 		final String name = "Rock";
 
 		context.checking(new Expectations() {
 			{
 				oneOf(mockPatientService).findByName(with(name));
-				will(returnValue(patientDto));
+				will(returnValue(patientDtos));
 			}
 		});
 		// WHEN
 		WebResource webResource = resource().path(PATIENT_FIND_BY_NAME)
 				.queryParam("name", name);
 		ClientResponse response = webResource.get(ClientResponse.class);
-		PatientDto actual = response.getEntity(PatientDto.class);
+		List<PatientDto> actual = response
+				.getEntity(new GenericType<List<PatientDto>>() {
+				});
 
 		// THEN
 		Assert.assertEquals(response.getStatus(), 200);
-		Assert.assertEquals(actual.getEmailId(), "rock@gmail.com");
-		Assert.assertEquals(actual.getFirstName(), "Rock");
-		Assert.assertEquals(actual.getId(), "UID201");
-		Assert.assertEquals(actual.getLastName(), "Johnson");
-		Assert.assertEquals(actual.getMiddleName(), "Albert");
+		Assert.assertEquals(actual.size(), 4);
 	}
 
 	@Test

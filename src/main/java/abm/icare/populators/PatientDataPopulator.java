@@ -1,5 +1,8 @@
 package abm.icare.populators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -23,16 +26,36 @@ public class PatientDataPopulator {
 		patient.setFirstName(patientDto.getFirstName());
 		patient.setLastName(patientDto.getLastName());
 		patient.setMiddleName(patientDto.getMiddleName());
+		patient.setAddrLine1(patientDto.getAddrLine1());
+		patient.setAddrLine2(patientDto.getAddrLine2());
+		patient.setCity(patientDto.getCity());
+		patient.setMobileNo(patientDto.getMobileNo());
+		patient.setState(patientDto.getState());
+		patient.setZipCode(patientDto.getZipCode());
 		return patient;
+	}
+
+	public List<PatientDto> populatePatientDtos(List<Patient> patients) {
+		List<PatientDto> dtos = new ArrayList<PatientDto>();
+		for (Patient patient : patients) {
+			dtos.add(populatePatientDto(patient));
+		}
+		return dtos;
 	}
 
 	public PatientDto populatePatientDto(Patient patient) {
 		PatientDto patientDto = context.getBean(PatientDto.class);
+		patientDto.setAddrLine1(patient.getAddrLine1());
+		patientDto.setAddrLine2(patient.getAddrLine2());
+		patientDto.setCity(patient.getCity());
 		patientDto.setEmailId(patient.getEmailId());
 		patientDto.setFirstName(patient.getFirstName());
 		patientDto.setId(patient.getId());
 		patientDto.setLastName(patient.getLastName());
 		patientDto.setMiddleName(patient.getMiddleName());
+		patientDto.setMobileNo(patient.getMobileNo());
+		patientDto.setState(patient.getState());
+		patientDto.setZipCode(patient.getZipCode());
 		return patientDto;
 	}
 

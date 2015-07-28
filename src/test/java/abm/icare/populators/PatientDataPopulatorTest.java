@@ -41,11 +41,17 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 		Patient actual = patientDataPopulator.populatePatient(patientDto);
 
 		// THEN
+		Assert.assertEquals(actual.getAddrLine1(), "Address Line 1");
+		Assert.assertEquals(actual.getAddrLine2(), "Address Line 2");
+		Assert.assertEquals(actual.getCity(), "Mumbai");
 		Assert.assertEquals(actual.getEmailId(), "rock@gmail.com");
 		Assert.assertEquals(actual.getFirstName(), "Rock");
-		Assert.assertEquals(actual.getId(), null);
 		Assert.assertEquals(actual.getLastName(), "Johnson");
 		Assert.assertEquals(actual.getMiddleName(), "Albert");
+		Assert.assertEquals(actual.getMobileNo(), 7823078320l);
+		Assert.assertEquals(actual.getState(), "Maharashtra");
+		Assert.assertEquals(actual.getZipCode(), "411020");
+		Assert.assertEquals(actual.getId(), null);
 	}
 
 	@Test
@@ -65,11 +71,17 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 		Patient actual = patientDataPopulator.populatePatient(patientDto);
 
 		// THEN
+		Assert.assertEquals(actual.getAddrLine1(), "Address Line 1");
+		Assert.assertEquals(actual.getAddrLine2(), "Address Line 2");
+		Assert.assertEquals(actual.getCity(), "Mumbai");
 		Assert.assertEquals(actual.getEmailId(), "rock@gmail.com");
 		Assert.assertEquals(actual.getFirstName(), "Rock");
-		Assert.assertEquals(actual.getId(), "UID201");
 		Assert.assertEquals(actual.getLastName(), "Johnson");
 		Assert.assertEquals(actual.getMiddleName(), "Albert");
+		Assert.assertEquals(actual.getMobileNo(), 7823078320l);
+		Assert.assertEquals(actual.getState(), "Maharashtra");
+		Assert.assertEquals(actual.getZipCode(), "411020");
+		Assert.assertEquals(actual.getId(), "UID201");
 	}
 
 	@Test
@@ -89,11 +101,17 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 		PatientDto actual = patientDataPopulator.populatePatientDto(patient);
 
 		// THEN
+		Assert.assertEquals(actual.getId(), "UID201");
+		Assert.assertEquals(actual.getAddrLine1(), "Address Line 1");
+		Assert.assertEquals(actual.getAddrLine2(), "Address Line 2");
+		Assert.assertEquals(actual.getCity(), "Mumbai");
 		Assert.assertEquals(actual.getEmailId(), "albert@gmail.com");
 		Assert.assertEquals(actual.getFirstName(), "Albert");
-		Assert.assertEquals(actual.getId(), "UID201");
 		Assert.assertEquals(actual.getLastName(), "Einstein");
 		Assert.assertEquals(actual.getMiddleName(), "Kevin");
+		Assert.assertEquals(actual.getMobileNo(), 7850078600l);
+		Assert.assertEquals(actual.getState(), "Maharashtra");
+		Assert.assertEquals(actual.getZipCode(), "411030");
 	}
 
 }
