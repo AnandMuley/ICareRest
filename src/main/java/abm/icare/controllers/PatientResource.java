@@ -14,9 +14,10 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import abm.icare.dtos.PatientDto;
+import abm.icare.exceptions.PatientNotFoundException;
+import abm.icare.exceptions.PatientServiceException;
 import abm.icare.services.PatientService;
 
 @Component
@@ -31,9 +32,13 @@ public class PatientResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findPatient(@QueryParam("name") String name) {
-		List<PatientDto> patients = patientService.findByName(name);
-		if (CollectionUtils.isEmpty(patients)) {
+		List<PatientDto> patients;
+		try {
+			patients = patientService.findByName(name);
+		} catch (PatientNotFoundException e) {
 			return Response.status(Response.Status.NOT_FOUND).build();
+		} catch (PatientServiceException e) {
+			return Response.serverError().build();
 		}
 		return Response.ok(patients).build();
 	}

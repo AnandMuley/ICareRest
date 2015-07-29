@@ -1,47 +1,51 @@
 package abm.icare.services;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.jmock.Expectations;
-import org.springframework.context.ApplicationContext;
+import org.jmock.Mockery;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import abm.icare.actions.SavePatientAction;
 import abm.icare.beans.Patient;
 import abm.icare.config.RootMockConfig;
+import abm.icare.config.SpringTestNGSupport;
 import abm.icare.dataproviders.PatientDataProvider;
 import abm.icare.dtos.PatientDto;
+import abm.icare.exceptions.PatientNotFoundException;
+import abm.icare.exceptions.PatientServiceException;
 import abm.icare.populators.PatientDataPopulator;
 import abm.icare.repositories.PatientRepository;
 
-public class PatientServiceTest implements RootMockConfig {
+public class PatientServiceTest extends SpringTestNGSupport implements
+		RootMockConfig {
 
 	private PatientRepository mockPatientRepository;
 	private PatientServiceImpl patientService;
 	private PatientDataPopulator patientDataPopulator;
-	private ApplicationContext mockApplicationContext;
+	private Mockery context;
 
-	@BeforeTest
+	@BeforeMethod
 	public void initData() {
+		context = new Mockery();
 		patientService = new PatientServiceImpl();
 		patientDataPopulator = new PatientDataPopulator();
-		mockApplicationContext = context.mock(ApplicationContext.class);
 		mockPatientRepository = context.mock(PatientRepository.class);
 		ReflectionTestUtils.setField(patientService, "patientRepository",
 				mockPatientRepository);
 		ReflectionTestUtils.setField(patientService, "patientDataPopulator",
 				patientDataPopulator);
 		ReflectionTestUtils.setField(patientDataPopulator, "context",
-				mockApplicationContext);
+				applicationContext);
 	}
 
 	@Test
-	public void shouldFindPatientById() {
+	public void shouldFindPatientById() throws PatientServiceException {
 		// GIVEN
-		final PatientDto patientDto = new PatientDto();
 		final List<Patient> patients = PatientDataProvider.createPatients();
 		final String name = "Albert";
 
@@ -49,9 +53,6 @@ public class PatientServiceTest implements RootMockConfig {
 			{
 				oneOf(mockPatientRepository).findByName(with(name));
 				will(returnValue(patients));
-				allowing(mockApplicationContext)
-						.getBean(with(PatientDto.class));
-				will(returnValue(patientDto));
 			}
 		});
 
@@ -62,10 +63,29 @@ public class PatientServiceTest implements RootMockConfig {
 		Assert.assertEquals(actual.size(), 4);
 	}
 
+	@Test(expectedExceptions = PatientNotFoundException.class)
+	public void shouldThrowNotPatientFoundException()
+			throws PatientServiceException {
+		// GIVEN
+		final String name = "Albert";
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientRepository).findByName(with(name));
+				will(returnValue(Collections.emptyList()));
+			}
+		});
+
+		// WHEN
+		patientService.findByName(name);
+
+		// THEN
+		// Should throw an exception
+	}
+
 	@Test
 	public void shouldUpdatePatient() {
 		// GIVEN
-		final Patient patient = new Patient();
 		final PatientDto patientDto = new PatientDto();
 		patientDto.setEmailId("roc@gmail.com");
 		patientDto.setFirstName("alia");
@@ -74,11 +94,7 @@ public class PatientServiceTest implements RootMockConfig {
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockPatientRepository).save(with(patient));
-				oneOf(mockApplicationContext).getBean(with(PatientDto.class));
-				will(returnValue(patientDto));
-				oneOf(mockApplicationContext).getBean(with(Patient.class));
-				will(returnValue(patient));
+				oneOf(mockPatientRepository).save(with(any(Patient.class)));
 			}
 		});
 
@@ -96,16 +112,13 @@ public class PatientServiceTest implements RootMockConfig {
 	@Test
 	public void shouldCreatePatient() {
 		// GIVEN
-		final Patient patient = new Patient();
 		final PatientDto patientDto = PatientDataProvider.createPatientDto();
 		final SavePatientAction savePatientAction = new SavePatientAction();
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockPatientRepository).insert(with(patient));
+				oneOf(mockPatientRepository).insert(with(any(Patient.class)));
 				will(savePatientAction);
-				oneOf(mockApplicationContext).getBean(with(Patient.class));
-				will(returnValue(patient));
 			}
 		});
 		// WHEN

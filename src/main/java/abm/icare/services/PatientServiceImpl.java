@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import abm.icare.beans.Patient;
+import abm.icare.constants.AppConstants;
 import abm.icare.dtos.PatientDto;
+import abm.icare.exceptions.PatientNotFoundException;
+import abm.icare.exceptions.PatientServiceException;
 import abm.icare.populators.PatientDataPopulator;
 import abm.icare.repositories.PatientRepository;
 
@@ -20,8 +24,13 @@ public class PatientServiceImpl implements PatientService {
 	private PatientDataPopulator patientDataPopulator;
 
 	@Override
-	public List<PatientDto> findByName(String searchTxt) {
+	public List<PatientDto> findByName(String searchTxt)
+			throws PatientServiceException {
 		List<Patient> patientsFound = patientRepository.findByName(searchTxt);
+		if (CollectionUtils.isEmpty(patientsFound)) {
+			throw new PatientNotFoundException(
+					AppConstants.EXCEPTION_PATIENT_NOT_FOUND);
+		}
 		return patientDataPopulator.populatePatientDtos(patientsFound);
 	}
 

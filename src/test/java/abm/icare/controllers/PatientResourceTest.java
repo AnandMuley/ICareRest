@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jmock.Expectations;
+import org.jmock.Mockery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -15,8 +16,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import abm.icare.config.RootMockConfig;
+import abm.icare.constants.AppConstants;
 import abm.icare.dataproviders.PatientDataProvider;
 import abm.icare.dtos.PatientDto;
+import abm.icare.exceptions.PatientNotFoundException;
+import abm.icare.exceptions.PatientServiceException;
 import abm.icare.services.PatientService;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -33,6 +37,7 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 
 	private PatientService mockPatientService;
 	private LowLevelAppDescriptor appDescriptor;
+	private Mockery context = new Mockery();
 
 	@Autowired
 	private PatientResource patientResource;
@@ -63,7 +68,7 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 	}
 
 	@Test
-	public void shouldReturnPatient() {
+	public void shouldReturnPatient() throws PatientServiceException {
 		// GIVEN
 		final List<PatientDto> patientDtos = PatientDataProvider
 				.createPatientDtos();
@@ -89,14 +94,15 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 	}
 
 	@Test
-	public void shouldReturnNotFoundStatus() {
+	public void shouldReturnNotFoundStatus() throws PatientServiceException {
 		// GIVEN
 		final String name = "Rock";
 
 		context.checking(new Expectations() {
 			{
 				oneOf(mockPatientService).findByName(with(name));
-				will(returnValue(null));
+				will(throwException(new PatientNotFoundException(
+						AppConstants.EXCEPTION_PATIENT_NOT_FOUND)));
 			}
 		});
 		// WHEN
@@ -107,6 +113,29 @@ public class PatientResourceTest extends JerseyTest implements RootMockConfig {
 		// THEN
 		Assert.assertEquals(response.getStatus(),
 				Response.Status.NOT_FOUND.getStatusCode());
+	}
+
+	@Test
+	public void shouldReturnInternalServerError()
+			throws PatientServiceException {
+		// GIVEN
+		final String name = "Rock";
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientService).findByName(with(name));
+				will(throwException(new PatientServiceException(
+						"Some error occured")));
+			}
+		});
+		// WHEN
+		WebResource webResource = resource().path(PATIENT_FIND_BY_NAME)
+				.queryParam("name", name);
+		ClientResponse response = webResource.get(ClientResponse.class);
+
+		// THEN
+		Assert.assertEquals(response.getStatus(),
+				Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 	}
 
 	@Test

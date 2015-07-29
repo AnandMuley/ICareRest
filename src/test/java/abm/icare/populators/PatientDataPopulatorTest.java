@@ -1,6 +1,7 @@
 package abm.icare.populators;
 
 import org.jmock.Expectations;
+import org.jmock.Mockery;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
@@ -16,6 +17,7 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 
 	private PatientDataPopulator patientDataPopulator;
 	private ApplicationContext mockApplicationContext;
+	private Mockery context = new Mockery();
 
 	@BeforeTest
 	public void setUp() {

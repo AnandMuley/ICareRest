@@ -13,6 +13,7 @@
 
 	<!-- Database Configuration -->
 	<import resource="spring-mongo-test-config.xml" />
+	<context:component-scan base-package="abm.icare" />
 	<context:annotation-config />
 	<!-- Annotation Based Binding -->
 	<mvc:annotation-driven />
