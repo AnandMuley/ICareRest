@@ -9,7 +9,7 @@ import abm.icare.beans.Patient;
 
 public interface PatientRepository extends MongoRepository<Patient, String> {
 
-	@Query(value = "{$or:[{'firstName':{$regex:'?0'}},{'lastName':{$regex:'?0'}}]}")
+	@Query(value = "{$or:[{'firstName':{$regex:'?0',$options:'i'}},{'lastName':{$regex:'?0',$options:'i'}}]}")
 	List<Patient> findByName(String searchTxt);
 
 }
