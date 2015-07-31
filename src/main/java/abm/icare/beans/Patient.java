@@ -1,7 +1,11 @@
 package abm.icare.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +26,8 @@ public class Patient {
 	private String city;
 	private String state;
 	private String zipCode;
+	@Transient
+	private List<Visit> visits = new ArrayList<Visit>();
 
 	public String getId() {
 		return id;
@@ -111,6 +117,10 @@ public class Patient {
 		this.zipCode = zipCode;
 	}
 
+	public List<Visit> getVisits() {
+		return visits;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,6 +140,7 @@ public class Patient {
 				+ ((middleName == null) ? 0 : middleName.hashCode());
 		result = prime * result + (int) (mobileNo ^ (mobileNo >>> 32));
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + ((visits == null) ? 0 : visits.hashCode());
 		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
 		return result;
 	}
@@ -190,6 +201,11 @@ public class Patient {
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
+		if (visits == null) {
+			if (other.visits != null)
+				return false;
+		} else if (!visits.equals(other.visits))
+			return false;
 		if (zipCode == null) {
 			if (other.zipCode != null)
 				return false;
@@ -205,7 +221,7 @@ public class Patient {
 				+ ", mobileNo=" + mobileNo + ", emailId=" + emailId
 				+ ", addrLine1=" + addrLine1 + ", addrLine2=" + addrLine2
 				+ ", city=" + city + ", state=" + state + ", zipCode="
-				+ zipCode + "]";
+				+ zipCode + ", visits=" + visits + "]";
 	}
 
 }

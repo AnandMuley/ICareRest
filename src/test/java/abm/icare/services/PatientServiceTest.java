@@ -25,14 +25,14 @@ public class PatientServiceTest extends SpringTestNGSupport implements
 		RootMockConfig {
 
 	private PatientRepository mockPatientRepository;
-	private PatientServiceImpl patientService;
+	private PatientService patientService;
 	private PatientDataPopulator patientDataPopulator;
 	private Mockery context;
 
 	@BeforeMethod
 	public void initData() {
 		context = new Mockery();
-		patientService = new PatientServiceImpl();
+		patientService = new PatientService();
 		patientDataPopulator = new PatientDataPopulator();
 		mockPatientRepository = context.mock(PatientRepository.class);
 		ReflectionTestUtils.setField(patientService, "patientRepository",
