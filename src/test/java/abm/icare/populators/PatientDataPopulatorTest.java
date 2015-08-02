@@ -1,44 +1,29 @@
 package abm.icare.populators;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.util.ReflectionTestUtils;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import abm.icare.beans.Medicine;
 import abm.icare.beans.Patient;
-import abm.icare.config.RootMockConfig;
+import abm.icare.config.SpringTestNGSupport;
 import abm.icare.dataproviders.PatientDataProvider;
+import abm.icare.dtos.MedicineDto;
 import abm.icare.dtos.PatientDto;
 
-public class PatientDataPopulatorTest implements RootMockConfig {
+public class PatientDataPopulatorTest extends SpringTestNGSupport {
 
+	@Autowired
 	private PatientDataPopulator patientDataPopulator;
-	private ApplicationContext mockApplicationContext;
-	private Mockery context = new Mockery();
-
-	@BeforeTest
-	public void setUp() {
-		mockApplicationContext = context.mock(ApplicationContext.class);
-		patientDataPopulator = new PatientDataPopulator();
-		ReflectionTestUtils.setField(patientDataPopulator, "context",
-				mockApplicationContext);
-	}
 
 	@Test
 	public void shouldPopulatePatient() {
 		// GIVEN
 		final PatientDto patientDto = PatientDataProvider.createPatientDto();
-		final Patient patient = new Patient();
 
-		context.checking(new Expectations() {
-			{
-				oneOf(mockApplicationContext).getBean(with(Patient.class));
-				will(returnValue(patient));
-			}
-		});
 		// WHEN
 		Patient actual = patientDataPopulator.populatePatient(patientDto);
 
@@ -61,14 +46,7 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 		// GIVEN
 		final PatientDto patientDto = PatientDataProvider.createPatientDto();
 		patientDto.setId("UID201");
-		final Patient patient = new Patient();
 
-		context.checking(new Expectations() {
-			{
-				oneOf(mockApplicationContext).getBean(with(Patient.class));
-				will(returnValue(patient));
-			}
-		});
 		// WHEN
 		Patient actual = patientDataPopulator.populatePatient(patientDto);
 
@@ -90,14 +68,6 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 	public void shouldPopulatePatientDto() {
 		// GIVEN
 		final Patient patient = PatientDataProvider.createPatient();
-		final PatientDto patientDto = new PatientDto();
-
-		context.checking(new Expectations() {
-			{
-				oneOf(mockApplicationContext).getBean(with(PatientDto.class));
-				will(returnValue(patientDto));
-			}
-		});
 
 		// WHEN
 		PatientDto actual = patientDataPopulator.populatePatientDto(patient);
@@ -116,4 +86,55 @@ public class PatientDataPopulatorTest implements RootMockConfig {
 		Assert.assertEquals(actual.getZipCode(), "411030");
 	}
 
+	@Test
+	public void shouldPopulatePatientDtos() {
+		// GIVEN
+		final List<Patient> patients = PatientDataProvider.createPatients();
+
+		// WHEN
+		List<PatientDto> actual = patientDataPopulator
+				.populatePatientDtos(patients);
+
+		// THEN
+		Assert.assertEquals(actual.size(), 4);
+		Assert.assertEquals(actual.get(0).getId(), "UID100");
+		Assert.assertEquals(actual.get(1).getId(), "UID101");
+		Assert.assertEquals(actual.get(2).getId(), "UID102");
+		Assert.assertEquals(actual.get(3).getId(), "UID103");
+		
+	}
+
+	@Test
+	public void shouldPopulateMedicine() {
+		// GIVEN
+		final Medicine medicine = new Medicine();
+		medicine.setId("MID101");
+		medicine.setName("Crocine");
+
+		// WHEN
+		MedicineDto actual = patientDataPopulator.populateMedicineDto(medicine);
+
+		// THEN
+		Assert.assertEquals(actual.getId(), "MID101");
+		Assert.assertEquals(actual.getName(), "Crocine");
+	}
+
+	@Test
+	public void shouldPopulateMedicineDtos() {
+		// GIVEN
+		final List<Medicine> medicines = Arrays.asList(new Medicine("MID201",
+				"Crocine"), new Medicine("MID202", "Crocold"));
+
+		// WHEN
+		List<MedicineDto> actual = patientDataPopulator
+				.populateMedicineDtos(medicines);
+
+		// THEN
+		Assert.assertEquals(actual.size(), 2);
+		Assert.assertEquals(actual.get(0).getId(), "MID201");
+		Assert.assertEquals(actual.get(0).getName(), "Crocine");
+		Assert.assertEquals(actual.get(1).getId(), "MID202");
+		Assert.assertEquals(actual.get(1).getName(), "Crocold");
+
+	}
 }

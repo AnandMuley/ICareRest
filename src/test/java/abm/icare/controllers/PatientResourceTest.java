@@ -6,16 +6,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import abm.icare.config.RootMockConfig;
+import abm.icare.config.AbstractResourceBaseConfig;
 import abm.icare.constants.AppConstants;
 import abm.icare.dataproviders.PatientDataProvider;
 import abm.icare.dtos.PatientDto;
@@ -26,45 +24,21 @@ import abm.icare.services.PatientService;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.core.DefaultResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.JerseyTest;
-import com.sun.jersey.test.framework.LowLevelAppDescriptor;
 
-public class PatientResourceTest extends JerseyTest implements RootMockConfig {
+public class PatientResourceTest extends AbstractResourceBaseConfig {
 
 	private PatientService mockPatientService;
-	private LowLevelAppDescriptor appDescriptor;
-	private Mockery context = new Mockery();
 
 	@Autowired
 	private PatientResource patientResource;
 
 	@BeforeClass
-	public void init() throws Exception {
+	public void initData() throws Exception {
 		patientResource = new PatientResource();
 		mockPatientService = context.mock(PatientService.class);
 		ReflectionTestUtils.setField(patientResource, "patientService",
 				mockPatientService);
-		ResourceConfig config = appDescriptor.getResourceConfig();
-		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING,
-				Boolean.TRUE);
-		config.getSingletons().add(patientResource);
-		super.setUp();
-	}
-
-	@Override
-	protected AppDescriptor configure() {
-		appDescriptor = new LowLevelAppDescriptor.Builder(
-				new DefaultResourceConfig()).build();
-		return appDescriptor;
-	}
-
-	@AfterClass
-	public void tearDown() throws Exception {
-		super.tearDown();
+		super.setUpData(patientResource);
 	}
 
 	@Test

@@ -10,6 +10,18 @@ public class Medicine {
 	private String id;
 	private String name;
 
+	public Medicine() {
+	}
+
+	public Medicine(String id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Medicine(String name) {
+		this.name = name;
+	}
+
 	public String getId() {
 		return id;
 	}

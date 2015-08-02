@@ -8,7 +8,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import abm.icare.beans.Medicine;
 import abm.icare.beans.Patient;
+import abm.icare.dtos.MedicineDto;
 import abm.icare.dtos.PatientDto;
 
 @Component
@@ -16,6 +18,21 @@ public class PatientDataPopulator {
 
 	@Autowired
 	private ApplicationContext context;
+
+	public List<MedicineDto> populateMedicineDtos(List<Medicine> medicines) {
+		List<MedicineDto> medicineDtos = new ArrayList<MedicineDto>();
+		for (Medicine medicine : medicines) {
+			medicineDtos.add(populateMedicineDto(medicine));
+		}
+		return medicineDtos;
+	}
+
+	public MedicineDto populateMedicineDto(Medicine medicine) {
+		MedicineDto medicineDto = context.getBean(MedicineDto.class);
+		medicineDto.setId(medicine.getId());
+		medicineDto.setName(medicine.getName());
+		return medicineDto;
+	}
 
 	public Patient populatePatient(PatientDto patientDto) {
 		Patient patient = context.getBean(Patient.class);
