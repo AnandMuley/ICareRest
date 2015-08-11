@@ -6,7 +6,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jmock.Expectations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
@@ -29,7 +28,6 @@ public class PatientResourceTest extends AbstractResourceBaseConfig {
 
 	private PatientService mockPatientService;
 
-	@Autowired
 	private PatientResource patientResource;
 
 	@BeforeClass
