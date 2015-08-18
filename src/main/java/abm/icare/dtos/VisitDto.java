@@ -3,12 +3,16 @@ package abm.icare.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class VisitDto {
 
 	private String id;
 	private String patientId;
 	private List<String> symptoms = new ArrayList<String>();
 	private List<String> allergies = new ArrayList<String>();
+	private List<String> prescriptions = new ArrayList<String>();
 
 	public String getId() {
 		return id;
@@ -32,6 +36,10 @@ public class VisitDto {
 
 	public List<String> getAllergies() {
 		return allergies;
+	}
+
+	public List<String> getPrescriptions() {
+		return prescriptions;
 	}
 
 	@Override

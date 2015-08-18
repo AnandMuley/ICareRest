@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
+@Component
 @Document(collection = "visits")
 public class Visit {
 

@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import abm.icare.actions.SavePatientAction;
 import abm.icare.beans.Patient;
-import abm.icare.config.RootMockConfig;
 import abm.icare.config.SpringTestNGSupport;
 import abm.icare.dataproviders.PatientDataProvider;
 import abm.icare.dtos.PatientDto;
@@ -21,8 +20,7 @@ import abm.icare.exceptions.PatientServiceException;
 import abm.icare.populators.PatientDataPopulator;
 import abm.icare.repositories.PatientRepository;
 
-public class PatientServiceTest extends SpringTestNGSupport implements
-		RootMockConfig {
+public class PatientServiceTest extends SpringTestNGSupport {
 
 	private PatientRepository mockPatientRepository;
 	private PatientService patientService;
