@@ -1,7 +1,7 @@
 package abm.icare.dtos;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
@@ -10,9 +10,9 @@ public class VisitDto {
 
 	private String id;
 	private String patientId;
-	private List<String> symptoms = new ArrayList<String>();
-	private List<String> allergies = new ArrayList<String>();
-	private List<String> prescriptions = new ArrayList<String>();
+	private Set<String> symptoms = new HashSet<String>();
+	private Set<String> allergies = new HashSet<String>();
+	private Set<String> prescriptions = new HashSet<String>();
 
 	public String getId() {
 		return id;
@@ -30,15 +30,15 @@ public class VisitDto {
 		this.patientId = patientId;
 	}
 
-	public List<String> getSymptoms() {
+	public Set<String> getSymptoms() {
 		return symptoms;
 	}
 
-	public List<String> getAllergies() {
+	public Set<String> getAllergies() {
 		return allergies;
 	}
 
-	public List<String> getPrescriptions() {
+	public Set<String> getPrescriptions() {
 		return prescriptions;
 	}
 

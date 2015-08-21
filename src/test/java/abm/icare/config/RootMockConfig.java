@@ -8,5 +8,7 @@ public interface RootMockConfig {
 
 	String MEDICINE_SEARCH_BY_NAME = "medicine/searchbyname";
 	String VISIT_CREATE = "visit/create";
+	String VISIT_UPDATE = "visit/update";
+	String VISIT_FIND_ALL = "visit/findall";
 
 }

@@ -1,6 +1,6 @@
 package abm.icare.beans;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,9 +12,9 @@ public class Visit {
 
 	@Id
 	private String id;
-	private List<String> symptoms;
-	private List<String> allergies;
-	private List<String> prescriptions;
+	private Set<String> symptoms;
+	private Set<String> allergies;
+	private Set<String> prescriptions;
 	private String patientId;
 
 	public String getId() {
@@ -25,27 +25,27 @@ public class Visit {
 		this.id = id;
 	}
 
-	public List<String> getSymptoms() {
+	public Set<String> getSymptoms() {
 		return symptoms;
 	}
 
-	public void setSymptoms(List<String> symptoms) {
+	public void setSymptoms(Set<String> symptoms) {
 		this.symptoms = symptoms;
 	}
 
-	public List<String> getAllergies() {
+	public Set<String> getAllergies() {
 		return allergies;
 	}
 
-	public void setAllergies(List<String> allergies) {
+	public void setAllergies(Set<String> allergies) {
 		this.allergies = allergies;
 	}
 
-	public List<String> getPrescriptions() {
+	public Set<String> getPrescriptions() {
 		return prescriptions;
 	}
 
-	public void setPrescriptions(List<String> prescriptions) {
+	public void setPrescriptions(Set<String> prescriptions) {
 		this.prescriptions = prescriptions;
 	}
 

@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import abm.icare.beans.Visit;
 import abm.icare.dtos.VisitDto;
+import abm.icare.exceptions.DeleteVisitException;
+import abm.icare.exceptions.UpdateVisitException;
+import abm.icare.exceptions.VisitServiceException;
 import abm.icare.populators.VisitDataPopulator;
 import abm.icare.repositories.VisitsRepository;
 
@@ -25,7 +29,10 @@ public class VisitService {
 		visitDto.setId(visit.getId());
 	}
 
-	public void update(VisitDto visitDto) {
+	public void update(VisitDto visitDto) throws VisitServiceException {
+		if (StringUtils.isEmpty(visitDto.getId())) {
+			throw new UpdateVisitException("VisitId should not be null");
+		}
 		Visit visit = visitDataPopulator.populateVisit(visitDto);
 		visitsRepository.save(visit);
 	}
@@ -35,8 +42,11 @@ public class VisitService {
 		return visitDataPopulator.populateVisits(visits);
 	}
 
-	public void deleteBy(String visitId) {
-
+	public void deleteBy(String visitId) throws VisitServiceException {
+		if (StringUtils.isEmpty(visitId)) {
+			throw new DeleteVisitException("VisitId should not be null");
+		}
+		visitsRepository.delete(visitId);
 	}
 
 }

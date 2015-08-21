@@ -22,7 +22,6 @@ public abstract class AbstractResourceBaseConfig extends JerseyTest implements
 	public void init() throws Exception {
 		// This configuration is required for mocking a class
 		context.setImposteriser(ClassImposteriser.INSTANCE);
-
 	}
 
 	@Override
@@ -43,7 +42,6 @@ public abstract class AbstractResourceBaseConfig extends JerseyTest implements
 			config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING,
 					Boolean.TRUE);
 			config.getSingletons().add(resource);
-
 			super.setUp();
 		} catch (Exception e) {
 			e.printStackTrace();

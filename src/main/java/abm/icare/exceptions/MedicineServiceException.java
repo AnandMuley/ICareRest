@@ -1,13 +1,13 @@
 package abm.icare.exceptions;
 
-public class MedicineServiceException extends Exception {
+public class MedicineServiceException extends ICareServiceException {
 
 	private static final long serialVersionUID = -1020088781110323561L;
 
 	public MedicineServiceException() {
 		super();
 	}
-	
+
 	public MedicineServiceException(String message, Throwable cause) {
 		super(message, cause);
 	}
@@ -20,6 +20,4 @@ public class MedicineServiceException extends Exception {
 		super(cause);
 	}
 
-	
-	
 }
