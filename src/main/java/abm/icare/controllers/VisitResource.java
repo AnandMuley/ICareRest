@@ -14,14 +14,14 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import abm.icare.dtos.VisitDto;
 import abm.icare.exceptions.VisitServiceException;
 import abm.icare.services.VisitService;
 
+@Component
 @Path("visit")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class VisitResource {
 
 	@Autowired
@@ -29,6 +29,8 @@ public class VisitResource {
 
 	@POST
 	@Path("create")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response createVisit(VisitDto visitDto) {
 		visitService.create(visitDto);
 		return Response.status(Response.Status.CREATED).build();
@@ -36,6 +38,8 @@ public class VisitResource {
 
 	@PUT
 	@Path("update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateVisit(VisitDto visitDto) {
 		try {
 			visitService.update(visitDto);
@@ -47,6 +51,7 @@ public class VisitResource {
 
 	@GET
 	@Path("findall")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response findAllBy(@QueryParam("pid") String patientId) {
 		List<VisitDto> visits = visitService.findAllVisitsOf(patientId);
 		return Response.ok(visits).build();
