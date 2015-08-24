@@ -45,11 +45,12 @@ public class VisitServiceTest extends SpringTestNGSupport {
 	public void shouldCreateVisit() {
 		// GIVEN
 		VisitDto visitDto = VisitDataProvider.createVisitDto();
+		final Visit visitToInsert = visitDataPopulator.populateVisit(visitDto);
 		final SaveVisitAction saveVisitAction = new SaveVisitAction();
 
 		context.checking(new Expectations() {
 			{
-				oneOf(mockVisitsRepository).insert(with(any(Visit.class)));
+				oneOf(mockVisitsRepository).insert(with(visitToInsert));
 				will(saveVisitAction);
 			}
 		});
@@ -138,6 +139,7 @@ public class VisitServiceTest extends SpringTestNGSupport {
 			Assert.assertEquals(visitDto.getPatientId(), patientId);
 			Assert.assertEquals(visitDto.getPrescriptions().size(), 1);
 			Assert.assertEquals(visitDto.getSymptoms().size(), 1);
+			Assert.assertNotNull(visitDto.getVisitedOn());
 		}
 	}
 

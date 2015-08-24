@@ -1,5 +1,6 @@
 package abm.icare.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class VisitService {
 
 	public void create(VisitDto visitDto) {
 		Visit visit = visitDataPopulator.populateVisit(visitDto);
+		Date today = new Date();
+		visit.setVisitedOn(today);
 		visitsRepository.insert(visit);
 		visitDto.setId(visit.getId());
 	}

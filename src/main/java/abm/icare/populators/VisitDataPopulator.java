@@ -38,6 +38,7 @@ public class VisitDataPopulator {
 			visitDto.getAllergies().addAll(visit.getAllergies());
 			visitDto.getPrescriptions().addAll(visit.getPrescriptions());
 			visitDto.getSymptoms().addAll(visit.getSymptoms());
+			visitDto.setVisitedOn(visit.getVisitedOn());
 			visitDtos.add(visitDto);
 		}
 		return visitDtos;

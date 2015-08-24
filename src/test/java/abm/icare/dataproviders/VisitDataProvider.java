@@ -2,6 +2,7 @@ package abm.icare.dataproviders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +42,7 @@ public abstract class VisitDataProvider {
 	}
 
 	public static List<Visit> createVisits() {
-
+		Date today = new Date(); 
 		List<Visit> visits = new ArrayList<Visit>();
 		for (int i = 0; i < 2; i++) {
 			Visit visit = new Visit();
@@ -50,6 +51,7 @@ public abstract class VisitDataProvider {
 			visit.setPatientId("PID201");
 			visit.setPrescriptions(prescriptions);
 			visit.setSymptoms(symptoms);
+			visit.setVisitedOn(today);
 			visits.add(visit);
 		}
 		return visits;

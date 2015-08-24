@@ -1,5 +1,6 @@
 package abm.icare.dtos;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public class VisitDto {
 	private Set<String> symptoms = new HashSet<String>();
 	private Set<String> allergies = new HashSet<String>();
 	private Set<String> prescriptions = new HashSet<String>();
+	private Date visitedOn;
 
 	public String getId() {
 		return id;
@@ -42,6 +44,14 @@ public class VisitDto {
 		return prescriptions;
 	}
 
+	public Date getVisitedOn() {
+		return visitedOn;
+	}
+
+	public void setVisitedOn(Date visitedOn) {
+		this.visitedOn = visitedOn;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,7 +62,11 @@ public class VisitDto {
 		result = prime * result
 				+ ((patientId == null) ? 0 : patientId.hashCode());
 		result = prime * result
+				+ ((prescriptions == null) ? 0 : prescriptions.hashCode());
+		result = prime * result
 				+ ((symptoms == null) ? 0 : symptoms.hashCode());
+		result = prime * result
+				+ ((visitedOn == null) ? 0 : visitedOn.hashCode());
 		return result;
 	}
 
@@ -80,10 +94,20 @@ public class VisitDto {
 				return false;
 		} else if (!patientId.equals(other.patientId))
 			return false;
+		if (prescriptions == null) {
+			if (other.prescriptions != null)
+				return false;
+		} else if (!prescriptions.equals(other.prescriptions))
+			return false;
 		if (symptoms == null) {
 			if (other.symptoms != null)
 				return false;
 		} else if (!symptoms.equals(other.symptoms))
+			return false;
+		if (visitedOn == null) {
+			if (other.visitedOn != null)
+				return false;
+		} else if (!visitedOn.equals(other.visitedOn))
 			return false;
 		return true;
 	}
@@ -91,7 +115,9 @@ public class VisitDto {
 	@Override
 	public String toString() {
 		return "VisitDto [id=" + id + ", patientId=" + patientId
-				+ ", symptoms=" + symptoms + ", allergies=" + allergies + "]";
+				+ ", symptoms=" + symptoms + ", allergies=" + allergies
+				+ ", prescriptions=" + prescriptions + ", visitedOn="
+				+ visitedOn + "]";
 	}
 
 }

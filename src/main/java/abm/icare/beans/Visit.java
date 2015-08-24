@@ -1,5 +1,6 @@
 package abm.icare.beans;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -16,6 +17,7 @@ public class Visit {
 	private Set<String> allergies;
 	private Set<String> prescriptions;
 	private String patientId;
+	private Date visitedOn;
 
 	public String getId() {
 		return id;
@@ -57,6 +59,14 @@ public class Visit {
 		this.patientId = patientId;
 	}
 
+	public Date getVisitedOn() {
+		return visitedOn;
+	}
+
+	public void setVisitedOn(Date visitedOn) {
+		this.visitedOn = visitedOn;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,6 +80,8 @@ public class Visit {
 				+ ((prescriptions == null) ? 0 : prescriptions.hashCode());
 		result = prime * result
 				+ ((symptoms == null) ? 0 : symptoms.hashCode());
+		result = prime * result
+				+ ((visitedOn == null) ? 0 : visitedOn.hashCode());
 		return result;
 	}
 
@@ -107,6 +119,11 @@ public class Visit {
 				return false;
 		} else if (!symptoms.equals(other.symptoms))
 			return false;
+		if (visitedOn == null) {
+			if (other.visitedOn != null)
+				return false;
+		} else if (!visitedOn.equals(other.visitedOn))
+			return false;
 		return true;
 	}
 
@@ -114,7 +131,7 @@ public class Visit {
 	public String toString() {
 		return "Visit [id=" + id + ", symptoms=" + symptoms + ", allergies="
 				+ allergies + ", prescriptions=" + prescriptions
-				+ ", patientId=" + patientId + "]";
+				+ ", patientId=" + patientId + ", visitedOn=" + visitedOn + "]";
 	}
 
 }
