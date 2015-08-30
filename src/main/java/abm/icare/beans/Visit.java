@@ -3,11 +3,13 @@ package abm.icare.beans;
 import java.util.Date;
 import java.util.Set;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope(value="prototype")
 @Document(collection = "visits")
 public class Visit {
 
