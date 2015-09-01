@@ -24,6 +24,7 @@ public abstract class VisitDataProvider {
 		visitDto.getAllergies().add("Peanuts");
 		visitDto.getSymptoms().add("Cough and Cold");
 		visitDto.getPrescriptions().add("Crocin");
+		visitDto.setVisitedOn(new Date());
 		return visitDto;
 	}
 
