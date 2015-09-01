@@ -12,17 +12,14 @@ import abm.icare.dtos.VisitDto;
 
 public abstract class VisitDataProvider {
 
-	static Set<String> allergies = new HashSet<String>(Arrays.asList("Peanuts"));
 	static Set<String> prescriptions = new HashSet<String>(
 			Arrays.asList("Crocin"));
-	static Set<String> symptoms = new HashSet<String>(
-			Arrays.asList("Cough and Cold"));
 
 	public static VisitDto createVisitDto() {
 		VisitDto visitDto = new VisitDto();
 		visitDto.setPatientId("PID101");
-		visitDto.getAllergies().add("Peanuts");
-		visitDto.getSymptoms().add("Cough and Cold");
+		visitDto.setAllergies("Peanuts");
+		visitDto.setSymptoms("Cough and Cold");
 		visitDto.getPrescriptions().add("Crocin");
 		visitDto.setVisitedOn(new Date());
 		return visitDto;
@@ -34,8 +31,8 @@ public abstract class VisitDataProvider {
 			VisitDto visitDto = new VisitDto();
 			visitDto.setId("VID10" + i);
 			visitDto.setPatientId("PID101");
-			visitDto.getAllergies().add("Peanuts");
-			visitDto.getSymptoms().add("Cough and Cold");
+			visitDto.setAllergies("Peanuts");
+			visitDto.setSymptoms("Cough and Cold");
 			visitDto.getPrescriptions().add("Crocin");
 			visitDtos.add(visitDto);
 		}
@@ -43,15 +40,15 @@ public abstract class VisitDataProvider {
 	}
 
 	public static List<Visit> createVisits() {
-		Date today = new Date(); 
+		Date today = new Date();
 		List<Visit> visits = new ArrayList<Visit>();
 		for (int i = 0; i < 2; i++) {
 			Visit visit = new Visit();
-			visit.setAllergies(allergies);
+			visit.setAllergies("Peanuts");
 			visit.setId("VID" + 100 + i);
 			visit.setPatientId("PID201");
 			visit.setPrescriptions(prescriptions);
-			visit.setSymptoms(symptoms);
+			visit.setSymptoms("Cough and Cold");
 			visit.setVisitedOn(today);
 			visits.add(visit);
 		}

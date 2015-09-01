@@ -133,11 +133,11 @@ public class VisitServiceTest extends SpringTestNGSupport {
 		// THEN
 		Assert.assertEquals(actual.size(), 2);
 		for (VisitDto visitDto : actual) {
-			Assert.assertEquals(visitDto.getAllergies().size(), 1);
+			Assert.assertEquals(visitDto.getAllergies(), "Peanuts");
 			Assert.assertNotNull(visitDto.getId());
 			Assert.assertEquals(visitDto.getPatientId(), patientId);
 			Assert.assertEquals(visitDto.getPrescriptions().size(), 1);
-			Assert.assertEquals(visitDto.getSymptoms().size(), 1);
+			Assert.assertEquals(visitDto.getSymptoms(), "Cough and Cold");
 			Assert.assertNotNull(visitDto.getVisitedOn());
 		}
 	}

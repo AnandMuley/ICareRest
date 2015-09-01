@@ -35,9 +35,9 @@ public class VisitDataPopulator {
 			VisitDto visitDto = context.getBean(VisitDto.class);
 			visitDto.setId(visit.getId());
 			visitDto.setPatientId(visit.getPatientId());
-			visitDto.getAllergies().addAll(visit.getAllergies());
+			visitDto.setAllergies(visit.getAllergies());
 			visitDto.getPrescriptions().addAll(visit.getPrescriptions());
-			visitDto.getSymptoms().addAll(visit.getSymptoms());
+			visitDto.setSymptoms(visit.getSymptoms());
 			visitDto.setVisitedOn(visit.getVisitedOn());
 			visitDtos.add(visitDto);
 		}

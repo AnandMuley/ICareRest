@@ -85,14 +85,14 @@ ext{
 
 test{
 	useTestNG(){
-	
-	}
-	jacoco {
 		
+	}
+	jacoco{
+	
 	}
 }
 
-jacocoTestReport{
+jacocoTestReport(){
 	reports{
 		html.destination "$buildDir/JacocoHtml"
 	}

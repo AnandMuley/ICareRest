@@ -4,15 +4,18 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class VisitDto {
 
 	private String id;
 	private String patientId;
-	private Set<String> symptoms = new HashSet<String>();
-	private Set<String> allergies = new HashSet<String>();
+	private String symptoms;
+	private String allergies;
 	private Set<String> prescriptions = new HashSet<String>();
 	private Date visitedOn;
 
@@ -32,14 +35,6 @@ public class VisitDto {
 		this.patientId = patientId;
 	}
 
-	public Set<String> getSymptoms() {
-		return symptoms;
-	}
-
-	public Set<String> getAllergies() {
-		return allergies;
-	}
-
 	public Set<String> getPrescriptions() {
 		return prescriptions;
 	}
@@ -50,6 +45,26 @@ public class VisitDto {
 
 	public void setVisitedOn(Date visitedOn) {
 		this.visitedOn = visitedOn;
+	}
+
+	public String getSymptoms() {
+		return symptoms;
+	}
+
+	public void setSymptoms(String symptoms) {
+		this.symptoms = symptoms;
+	}
+
+	public String getAllergies() {
+		return allergies;
+	}
+
+	public void setAllergies(String allergies) {
+		this.allergies = allergies;
+	}
+
+	public void setPrescriptions(Set<String> prescriptions) {
+		this.prescriptions = prescriptions;
 	}
 
 	@Override
