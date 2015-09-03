@@ -61,4 +61,26 @@ public abstract class AppointmentDataProvider {
 		return appointments;
 	}
 
+	public static List<AppointmentDto> createAppointmentDtos() {
+		Calendar calendarReq = Calendar.getInstance();
+		List<AppointmentDto> appointments = new ArrayList<AppointmentDto>();
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, 2);
+		for (int i = 0; i < 5; i++) {
+			calendarReq.add(Calendar.MINUTE, i);
+			final AppointmentDto appointment = new AppointmentDto();
+			if (i > 3) {
+				calendar.add(Calendar.DAY_OF_MONTH, 3);
+			}
+			appointment.setDatedOn(sdf.format(calendar.getTime()));
+			appointment.setEmailId("rahul@gmail.com");
+			appointment.setFirstName("User" + i);
+			appointment.setLastName("Malhotra");
+			appointment.setMobileNo(7890098700l);
+			appointment.setRequestSubmittedOn(calendarReq.getTime());
+			appointments.add(appointment);
+		}
+		return appointments;
+	}
+
 }

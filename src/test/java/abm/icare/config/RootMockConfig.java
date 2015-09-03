@@ -11,4 +11,6 @@ public interface RootMockConfig {
 	String VISIT_UPDATE = "visit/update";
 	String VISIT_FIND_ALL = "visit/findall";
 
+	String APPOINTMENT_CREATE = "appointment/create";
+	String APPOINTMENT_FETCH_ALL = "appointment/findby";
 }
