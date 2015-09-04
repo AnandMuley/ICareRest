@@ -44,7 +44,7 @@ public class AppointmentService {
 		for (Appointment appointment : appointments) {
 			AppointmentDto appointmentDto = context
 					.getBean(AppointmentDto.class);
-			appointmentDto.setDatedOn(datedOn);
+			appointmentDto.setDatedOn(appointment.getDatedOn());
 			appointmentDto.setEmailId(appointment.getEmailId());
 			appointmentDto.setFirstName(appointment.getFirstName());
 			appointmentDto.setId(appointment.getId());

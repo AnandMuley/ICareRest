@@ -30,7 +30,7 @@ public class AppointmentResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNew(AppointmentDto appointmentDto) {
 		appointmentService.create(appointmentDto);
-		return Response.ok(Response.Status.CREATED).build();
+		return Response.ok().build();
 	}
 
 	@GET

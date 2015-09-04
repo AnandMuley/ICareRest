@@ -14,6 +14,7 @@ import abm.icare.config.AbstractResourceBaseConfig;
 import abm.icare.dataproviders.AppointmentDataProvider;
 import abm.icare.dtos.AppointmentDto;
 import abm.icare.services.AppointmentService;
+import abm.icare.utils.DateUtils;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -58,7 +59,7 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 	@Test
 	public void shouldGetAppointmentsOnGivenDate() {
 		// GIVEN
-		final String datedOn = "04-Sep-2015";
+		final String datedOn = DateUtils.getStringDateLater(2);
 		final List<AppointmentDto> appointmentDtos = AppointmentDataProvider
 				.createAppointmentDtos();
 
@@ -70,7 +71,9 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 		});
 		// WHEN
 		ClientResponse response = resource().path(APPOINTMENT_FETCH_ALL)
-				.queryParam("datedOn", datedOn).get(ClientResponse.class);
+				.queryParam("datedOn", datedOn.toString())
+				.accept(MediaType.APPLICATION_JSON)
+				.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
 		List<AppointmentDto> appointments = response
 				.getEntity(new GenericType<List<AppointmentDto>>() {

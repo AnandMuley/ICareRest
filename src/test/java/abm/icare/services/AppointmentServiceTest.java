@@ -15,6 +15,7 @@ import abm.icare.config.SpringTestNGSupport;
 import abm.icare.dataproviders.AppointmentDataProvider;
 import abm.icare.dtos.AppointmentDto;
 import abm.icare.repositories.AppointmentRepository;
+import abm.icare.utils.DateUtils;
 
 public class AppointmentServiceTest extends SpringTestNGSupport {
 
@@ -58,7 +59,7 @@ public class AppointmentServiceTest extends SpringTestNGSupport {
 	@Test
 	public void shouldGetAppointmentsForDate() {
 		// GIVEN
-		final String datedOn = "20-Sep-2015";
+		final String datedOn = DateUtils.getStringDateLater(2);
 		final List<Appointment> appointments = AppointmentDataProvider
 				.createAppointments();
 

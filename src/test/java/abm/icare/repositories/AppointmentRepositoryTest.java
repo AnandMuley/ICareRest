@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import abm.icare.beans.Appointment;
 import abm.icare.config.SpringTestNGSupport;
 import abm.icare.dataproviders.AppointmentDataProvider;
+import abm.icare.utils.DateUtils;
 
 public class AppointmentRepositoryTest extends SpringTestNGSupport {
 
@@ -46,7 +47,7 @@ public class AppointmentRepositoryTest extends SpringTestNGSupport {
 	@Test
 	public void shouldGetListOfAppointments() {
 		// GIVEN
-		final String date = "05-Sep-2015";
+		final String date = DateUtils.getStringDateLater(2);
 
 		// WHEN
 		List<Appointment> actualAppointments = appointmentRepository
