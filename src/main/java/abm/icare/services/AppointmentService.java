@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import abm.icare.beans.Appointment;
+import abm.icare.constants.AppConstants;
 import abm.icare.dtos.AppointmentDto;
 import abm.icare.repositories.AppointmentRepository;
 
@@ -50,6 +51,8 @@ public class AppointmentService {
 			appointmentDto.setId(appointment.getId());
 			appointmentDto.setLastName(appointment.getLastName());
 			appointmentDto.setMobileNo(appointment.getMobileNo());
+			appointmentDto.setName(appointment.getFirstName()
+					+ AppConstants.WHITE_SPACE + appointment.getLastName());
 			appointmentDto.setRequestSubmittedOn(appointment
 					.getRequestSubmittedOn());
 			appointmentDtos.add(appointmentDto);

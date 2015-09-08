@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class AppointmentDto {
 
 	private String id;
+	private String name;
 	private String firstName;
 	private String lastName;
 	private long mobileNo;
@@ -45,20 +46,12 @@ public class AppointmentDto {
 		this.requestSubmittedOn = requestSubmittedOn;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public long getMobileNo() {
@@ -77,6 +70,22 @@ public class AppointmentDto {
 		this.emailId = emailId;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,6 +98,7 @@ public class AppointmentDto {
 		result = prime * result
 				+ ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + (int) (mobileNo ^ (mobileNo >>> 32));
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime
 				* result
 				+ ((requestSubmittedOn == null) ? 0 : requestSubmittedOn
@@ -132,6 +142,11 @@ public class AppointmentDto {
 			return false;
 		if (mobileNo != other.mobileNo)
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		if (requestSubmittedOn == null) {
 			if (other.requestSubmittedOn != null)
 				return false;
@@ -142,9 +157,9 @@ public class AppointmentDto {
 
 	@Override
 	public String toString() {
-		return "AppointmentDto [id=" + id + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", mobileNo=" + mobileNo
-				+ ", emailId=" + emailId + ", datedOn=" + datedOn
+		return "AppointmentDto [id=" + id + ", name=" + name + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", mobileNo="
+				+ mobileNo + ", emailId=" + emailId + ", datedOn=" + datedOn
 				+ ", requestSubmittedOn=" + requestSubmittedOn + "]";
 	}
 
