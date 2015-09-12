@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import abm.icare.beans.Appointment;
+import abm.icare.beans.PatientQueue;
 import abm.icare.dtos.AppointmentDto;
 
 public abstract class AppointmentDataProvider {
@@ -81,6 +83,34 @@ public abstract class AppointmentDataProvider {
 			appointments.add(appointment);
 		}
 		return appointments;
+	}
+
+	public static PatientQueue createPatientQueue() throws InterruptedException {
+		PatientQueue patientQueue = new PatientQueue();
+		Appointment appointment = new Appointment();
+		appointment.setId("55ae228044webfcdd19d7720");
+		appointment.setRequestSubmittedOn(new Date());
+		TimeUnit.SECONDS.sleep(2);
+		Appointment appointment2 = new Appointment();
+		appointment2.setId("55ae228044webfcdd19d7721");
+		appointment2.setRequestSubmittedOn(new Date());
+		patientQueue.getLive().add(appointment);
+		patientQueue.getLive().add(appointment2);
+		return patientQueue;
+	}
+	
+	public static PatientQueue createPatientQueueOnhold() throws InterruptedException {
+		PatientQueue patientQueue = new PatientQueue();
+		Appointment appointment = new Appointment();
+		appointment.setId("55ae228044webfcdd19d7720");
+		appointment.setRequestSubmittedOn(new Date());
+		TimeUnit.SECONDS.sleep(2);
+		Appointment appointment2 = new Appointment();
+		appointment2.setId("55ae228044webfcdd19d7721");
+		appointment2.setRequestSubmittedOn(new Date());
+		patientQueue.getOnhold().add(appointment);
+		patientQueue.getOnhold().add(appointment2);
+		return patientQueue;
 	}
 
 }

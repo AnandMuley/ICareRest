@@ -3,6 +3,7 @@ package abm.icare.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -10,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Document(collection = "patients")
-public class Patient {
+public class Patient implements Comparable<Patient> {
 
 	@Id
 	private String id;
@@ -129,6 +130,12 @@ public class Patient {
 				+ ", addrLine1=" + addrLine1 + ", addrLine2=" + addrLine2
 				+ ", city=" + city + ", state=" + state + ", zipCode="
 				+ zipCode + ", visits=" + visits + "]";
+	}
+
+	@Override
+	public int compareTo(Patient o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
