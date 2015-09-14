@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import abm.icare.dtos.AppointmentDto;
+import abm.icare.dtos.PatientQueueDto;
 import abm.icare.services.AppointmentService;
+import abm.icare.services.PatientQueueService;
 
 @Component
 @Path("appointment")
@@ -24,6 +26,9 @@ public class AppointmentResource {
 
 	@Autowired
 	private AppointmentService appointmentService;
+
+	@Autowired
+	private PatientQueueService patientQueueService;
 
 	@POST
 	@Path("create")
@@ -35,9 +40,17 @@ public class AppointmentResource {
 
 	@GET
 	@Path("findby")
-	public Response fetchBy(@QueryParam("datedOn") String datedOn) {
-		List<AppointmentDto> appointmentDtos = appointmentService
-				.getAppointmentsFor(datedOn);
-		return Response.ok(appointmentDtos).build();
+	public Response fetchBy(@QueryParam("qid") String qid,
+			@QueryParam("datedOn") String datedOn) {
+		PatientQueueDto patientQueueDto = patientQueueService.findBy(qid,
+				datedOn);
+		if (patientQueueDto == null) {
+			List<AppointmentDto> appointmentDtos = appointmentService
+					.getAppointmentsFor(datedOn);
+			patientQueueDto = patientQueueService.createNew(appointmentDtos,
+					datedOn);
+		}
+		return Response.ok(patientQueueDto).build();
 	}
+
 }

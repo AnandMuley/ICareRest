@@ -16,6 +16,7 @@ public class PatientQueue {
 
 	@Id
 	private String id;
+	private String datedOn;
 	private Set<Appointment> live = new TreeSet<Appointment>();
 	private Set<Appointment> onhold = new TreeSet<Appointment>();
 
@@ -29,6 +30,18 @@ public class PatientQueue {
 
 	public String getId() {
 		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDatedOn() {
+		return datedOn;
+	}
+
+	public void setDatedOn(String datedOn) {
+		this.datedOn = datedOn;
 	}
 
 	@Override

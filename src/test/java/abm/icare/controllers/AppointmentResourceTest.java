@@ -13,23 +13,28 @@ import org.testng.annotations.Test;
 import abm.icare.config.AbstractResourceBaseConfig;
 import abm.icare.dataproviders.AppointmentDataProvider;
 import abm.icare.dtos.AppointmentDto;
+import abm.icare.dtos.PatientQueueDto;
 import abm.icare.services.AppointmentService;
+import abm.icare.services.PatientQueueService;
 import abm.icare.utils.DateUtils;
 
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
 
 public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 
 	private AppointmentResource appointmentResource;
 	private AppointmentService mockAppointmentService;
+	private PatientQueueService mockPatientQueueService;
 
 	@BeforeClass
 	public void setData() {
+		mockPatientQueueService = context.mock(PatientQueueService.class);
 		mockAppointmentService = context.mock(AppointmentService.class);
 		appointmentResource = new AppointmentResource();
 		ReflectionTestUtils.setField(appointmentResource, "appointmentService",
 				mockAppointmentService);
+		ReflectionTestUtils.setField(appointmentResource,
+				"patientQueueService", mockPatientQueueService);
 		super.setUpData(appointmentResource);
 	}
 
@@ -62,11 +67,16 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 		final String datedOn = DateUtils.getStringDateLater(2);
 		final List<AppointmentDto> appointmentDtos = AppointmentDataProvider
 				.createAppointmentDtos();
+		final PatientQueueDto patientQueueDto = AppointmentDataProvider
+				.createPatientQueueDto(appointmentDtos);
 
 		context.checking(new Expectations() {
 			{
 				oneOf(mockAppointmentService).getAppointmentsFor(with(datedOn));
 				will(returnValue(appointmentDtos));
+				oneOf(mockPatientQueueService).createNew(with(appointmentDtos),
+						with(datedOn));
+				will(returnValue(patientQueueDto));
 			}
 		});
 		// WHEN
@@ -75,11 +85,10 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 				.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
-		List<AppointmentDto> appointments = response
-				.getEntity(new GenericType<List<AppointmentDto>>() {
-				});
+		PatientQueueDto patientQueueDtoResponse = response
+				.getEntity(PatientQueueDto.class);
 		// THEN
-		Assert.assertEquals(appointments.size(), 5);
+		Assert.assertEquals(patientQueueDtoResponse.getLive().size(), 5);
 	}
 
 }

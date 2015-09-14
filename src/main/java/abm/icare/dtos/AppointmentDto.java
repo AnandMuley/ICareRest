@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @JsonIgnoreProperties({ "message", "isSuccess" })
-public class AppointmentDto {
+public class AppointmentDto implements Comparable<AppointmentDto> {
 
 	private String id;
 	private String name;
@@ -161,6 +161,11 @@ public class AppointmentDto {
 				+ firstName + ", lastName=" + lastName + ", mobileNo="
 				+ mobileNo + ", emailId=" + emailId + ", datedOn=" + datedOn
 				+ ", requestSubmittedOn=" + requestSubmittedOn + "]";
+	}
+
+	@Override
+	public int compareTo(AppointmentDto o) {
+		return this.requestSubmittedOn.compareTo(o.requestSubmittedOn);
 	}
 
 }
