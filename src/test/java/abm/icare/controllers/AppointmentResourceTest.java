@@ -64,6 +64,7 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 	@Test
 	public void shouldGetAppointmentsOnGivenDate() {
 		// GIVEN
+		final String queueId = "QID101";
 		final String datedOn = DateUtils.getStringDateLater(2);
 		final List<AppointmentDto> appointmentDtos = AppointmentDataProvider
 				.createAppointmentDtos();
@@ -72,6 +73,39 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 
 		context.checking(new Expectations() {
 			{
+				oneOf(mockPatientQueueService).findBy(with(queueId),
+						with(datedOn));
+				will(returnValue(patientQueueDto));
+			}
+		});
+		// WHEN
+		ClientResponse response = resource().path(APPOINTMENT_FETCH_ALL)
+				.queryParam("datedOn", datedOn.toString())
+				.queryParam("qid", queueId).accept(MediaType.APPLICATION_JSON)
+				.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+		PatientQueueDto patientQueueDtoResponse = response
+				.getEntity(PatientQueueDto.class);
+		// THEN
+		Assert.assertEquals(patientQueueDtoResponse.getLive().size(), 5);
+	}
+
+	@Test
+	public void shouldGetAppointmentsOnGivenDateAndCreateAQueueInDB() {
+		// GIVEN
+		// Queue does not exist for Given QId and DatedOn
+		final String queueId = "QID102";
+		final String datedOn = DateUtils.getStringDateLater(2);
+		final List<AppointmentDto> appointmentDtos = AppointmentDataProvider
+				.createAppointmentDtos();
+		final PatientQueueDto patientQueueDto = AppointmentDataProvider
+				.createPatientQueueDto(appointmentDtos);
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientQueueService).findBy(with(queueId),
+						with(datedOn));
+				will(returnValue(null));
 				oneOf(mockAppointmentService).getAppointmentsFor(with(datedOn));
 				will(returnValue(appointmentDtos));
 				oneOf(mockPatientQueueService).createNew(with(appointmentDtos),
@@ -82,13 +116,14 @@ public class AppointmentResourceTest extends AbstractResourceBaseConfig {
 		// WHEN
 		ClientResponse response = resource().path(APPOINTMENT_FETCH_ALL)
 				.queryParam("datedOn", datedOn.toString())
-				.accept(MediaType.APPLICATION_JSON)
+				.queryParam("qid", queueId).accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
 		PatientQueueDto patientQueueDtoResponse = response
 				.getEntity(PatientQueueDto.class);
 		// THEN
 		Assert.assertEquals(patientQueueDtoResponse.getLive().size(), 5);
+		Assert.assertEquals(patientQueueDto.getId(), "QID101");
 	}
 
 }
