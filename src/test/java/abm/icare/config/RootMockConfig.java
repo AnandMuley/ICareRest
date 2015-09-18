@@ -13,4 +13,7 @@ public interface RootMockConfig {
 
 	String APPOINTMENT_CREATE = "appointment/create";
 	String APPOINTMENT_FETCH_ALL = "appointment/findby";
+
+	String PATIENT_QUEUE_PUT_ONHOLD = "queue/putonhold";
+	String PATIENT_QUEUE_MOVE_TO_LIVE = "queue/movetolive";
 }

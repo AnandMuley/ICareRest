@@ -60,6 +60,7 @@ public class PatientQueueService {
 				break;
 			}
 		}
+		patientQueueRepository.save(patientQueue);
 		return patientQueue;
 	}
 
@@ -74,6 +75,7 @@ public class PatientQueueService {
 				break;
 			}
 		}
+		patientQueueRepository.save(patientQueue);
 		return patientQueue;
 	}
 

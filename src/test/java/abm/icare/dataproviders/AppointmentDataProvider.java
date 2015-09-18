@@ -100,6 +100,38 @@ public abstract class AppointmentDataProvider {
 		return patientQueue;
 	}
 
+	public static PatientQueue movingPatientToLiveQueue()
+			throws InterruptedException {
+		PatientQueue patientQueue = new PatientQueue();
+		patientQueue.setId("55ae222344zebfcdd19d7721");
+		Appointment appointment = new Appointment();
+		appointment.setId("55ae228044webfcdd19d7720");
+		appointment.setRequestSubmittedOn(new Date());
+		TimeUnit.SECONDS.sleep(2);
+		Appointment appointment2 = new Appointment();
+		appointment2.setId("55ae222312zebfcdd19d7722");
+		appointment2.setRequestSubmittedOn(new Date());
+		patientQueue.getLive().add(appointment);
+		patientQueue.getOnhold().add(appointment2);
+		return patientQueue;
+	}
+
+	public static PatientQueue puttingAPatientOnHold()
+			throws InterruptedException {
+		PatientQueue patientQueue = new PatientQueue();
+		patientQueue.setId("55ae222344zebfcdd19d7721");
+		Appointment appointment = new Appointment();
+		appointment.setId("55ae228044webfcdd19d7720");
+		appointment.setRequestSubmittedOn(new Date());
+		TimeUnit.SECONDS.sleep(2);
+		Appointment appointment2 = new Appointment();
+		appointment2.setId("55ae222312zebfcdd19d7722");
+		appointment2.setRequestSubmittedOn(new Date());
+		patientQueue.getLive().add(appointment);
+		patientQueue.getOnhold().add(appointment2);
+		return patientQueue;
+	}
+
 	public static List<AppointmentDto> createAppointmentsDtos()
 			throws InterruptedException {
 		AppointmentDto appointment = new AppointmentDto();
