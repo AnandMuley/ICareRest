@@ -59,6 +59,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
+				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
 			}
 		});
 		// WHEN
@@ -70,9 +71,10 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 		Assert.assertEquals(patientQueueUpdated.getOnhold().iterator().next()
 				.getId(), appointmentId);
 	}
-	
+
 	@Test
-	public void shouldMovePatientToOnHoldQueueNothingToMove() throws InterruptedException {
+	public void shouldMovePatientToOnHoldQueueNothingToMove()
+			throws InterruptedException {
 		// GIVEN
 		final String appointmentId = "55ae228044webfcdd19d7722";
 		final PatientQueue patientQueue = AppointmentDataProvider
@@ -82,6 +84,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
+				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
 			}
 		});
 		// WHEN
@@ -103,6 +106,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
+				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
 			}
 		});
 
@@ -119,6 +123,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueueUpdated));
+				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
 			}
 		});
 
@@ -133,9 +138,10 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 	}
 
 	@Test
-	public void shouldMoveAPatientToLiveQueueNoneToMove() throws InterruptedException {
+	public void shouldMoveAPatientToLiveQueueNoneToMove()
+			throws InterruptedException {
 		// GIVEN
-		final String appointmentId = "55ae228044webfcdd19d7722";
+		final String appointmentId = "55ae228044webfcdd19d7720";
 		final PatientQueue patientQueue = AppointmentDataProvider
 				.createPatientQueueOnhold();
 
@@ -143,6 +149,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
+				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
 			}
 		});
 
@@ -159,6 +166,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueueUpdated));
+				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
 			}
 		});
 
@@ -171,7 +179,7 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 		Assert.assertEquals(patientQueueUpdated2.getLive().iterator().next()
 				.getId(), appointmentId);
 	}
-	
+
 	@Test
 	public void createNew() throws InterruptedException {
 		// GIVEN

@@ -15,6 +15,7 @@ public class Appointment implements Comparable<Appointment> {
 
 	@Id
 	private String id;
+	private String name;
 	private String firstName;
 	private String lastName;
 	private long mobileNo;
@@ -28,6 +29,14 @@ public class Appointment implements Comparable<Appointment> {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getFirstName() {

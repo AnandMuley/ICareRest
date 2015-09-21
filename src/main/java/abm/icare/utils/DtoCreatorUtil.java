@@ -21,6 +21,14 @@ public class DtoCreatorUtil {
 	public PatientQueueDto createPatientQueueDto(PatientQueue patientQueue) {
 		PatientQueueDto patientQueueDto = context
 				.getBean(PatientQueueDto.class);
+		populateLiveQueue(patientQueue, patientQueueDto);
+		populateOnHoldQueue(patientQueue, patientQueueDto);
+		patientQueueDto.setId(patientQueue.getId());
+		return patientQueueDto;
+	}
+
+	private void populateLiveQueue(PatientQueue patientQueue,
+			PatientQueueDto patientQueueDto) {
 		Iterator<Appointment> iterator = patientQueue.getLive().iterator();
 		while (iterator.hasNext()) {
 			Appointment appointment = iterator.next();
@@ -38,8 +46,27 @@ public class DtoCreatorUtil {
 					.getRequestSubmittedOn());
 			patientQueueDto.getLive().add(appointmentDto);
 		}
-		patientQueueDto.setId(patientQueue.getId());
-		return patientQueueDto;
+	}
+
+	private void populateOnHoldQueue(PatientQueue patientQueue,
+			PatientQueueDto patientQueueDto) {
+		Iterator<Appointment> iterator = patientQueue.getOnhold().iterator();
+		while (iterator.hasNext()) {
+			Appointment appointment = iterator.next();
+			AppointmentDto appointmentDto = context
+					.getBean(AppointmentDto.class);
+			appointmentDto.setDatedOn(appointment.getDatedOn());
+			appointmentDto.setEmailId(appointment.getEmailId());
+			appointmentDto.setFirstName(appointment.getFirstName());
+			appointmentDto.setId(appointment.getId());
+			appointmentDto.setLastName(appointment.getLastName());
+			appointmentDto.setMobileNo(appointment.getMobileNo());
+			appointmentDto.setName(appointment.getFirstName()
+					+ AppConstants.WHITE_SPACE + appointment.getLastName());
+			appointmentDto.setRequestSubmittedOn(appointment
+					.getRequestSubmittedOn());
+			patientQueueDto.getOnhold().add(appointmentDto);
+		}
 	}
 
 }

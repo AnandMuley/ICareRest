@@ -27,6 +27,7 @@ public class BeanCreatorUtil {
 			appointment.setDatedOn(appointmentDto.getDatedOn());
 			appointment.setEmailId(appointmentDto.getEmailId());
 			appointment.setId(appointmentDto.getId());
+			appointment.setName(appointmentDto.getName());
 			appointment.setLastName(appointmentDto.getLastName());
 			appointment.setMobileNo(appointmentDto.getMobileNo());
 			appointment.setRequestSubmittedOn(appointmentDto
