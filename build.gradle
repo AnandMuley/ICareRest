@@ -87,12 +87,14 @@ test{
 	useTestNG(){
 		
 	}
-	jacoco{
-	
-	}
 }
 
 jacocoTestReport(){
+ 	afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['abm/icare/dtos/**','abm/icare/beans/**'])
+        })
+    }
 	reports{
 		html.destination "$buildDir/JacocoHtml"
 	}

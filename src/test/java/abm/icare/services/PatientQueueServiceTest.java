@@ -59,7 +59,8 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
-				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
 			}
 		});
 		// WHEN
@@ -84,7 +85,8 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
-				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
 			}
 		});
 		// WHEN
@@ -106,7 +108,8 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
-				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
 			}
 		});
 
@@ -123,7 +126,8 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueueUpdated));
-				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
 			}
 		});
 
@@ -149,7 +153,8 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueue));
-				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
 			}
 		});
 
@@ -166,7 +171,8 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 			{
 				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
 				will(returnValue(patientQueueUpdated));
-				oneOf(mockPatientQueueRepository).save(with(any(PatientQueue.class)));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
 			}
 		});
 
@@ -278,4 +284,52 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 		Assert.assertNull(patientQueueDto);
 	}
 
+	@Test
+	public void shouldHandleOnHoldQueueEmptyScenario()
+			throws InterruptedException {
+		// GIVEN
+		final String appointmentId = "55ae228044webfcdd19d7720";
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
+				will(returnValue(new PatientQueue()));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
+			}
+		});
+
+		// WHEN moving patient from onhold queue to live queue
+		final PatientQueue patientQueueUpdated = patientQueueService
+				.moveToLive(QUEUE_ID, appointmentId);
+
+		// THEN
+		Assert.assertEquals(patientQueueUpdated.getOnhold().size(), 0);
+
+	}
+
+	@Test
+	public void shouldNotMovePatientIfNotFound() throws InterruptedException {
+		// GIVEN
+		final String appointmentId = "55ae228044webfcdd19d77224";
+		final PatientQueue patientQueue = AppointmentDataProvider
+				.createPatientQueueOnhold();
+
+		context.checking(new Expectations() {
+			{
+				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
+				will(returnValue(patientQueue));
+				oneOf(mockPatientQueueRepository).save(
+						with(any(PatientQueue.class)));
+			}
+		});
+
+		// WHEN moving patient from onhold queue to live queue
+		final PatientQueue patientQueueUpdated = patientQueueService
+				.moveToLive(QUEUE_ID, appointmentId);
+
+		// THEN
+		Assert.assertEquals(patientQueueUpdated.getOnhold().size(), 2);
+
+	}
 }
