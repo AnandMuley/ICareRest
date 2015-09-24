@@ -27,4 +27,9 @@ public class MedicineDto {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "MedicineDto [id=" + id + ", name=" + name + "]";
+	}
+
 }

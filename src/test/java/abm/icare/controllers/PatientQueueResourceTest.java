@@ -62,7 +62,7 @@ public class PatientQueueResourceTest extends AbstractResourceBaseConfig {
 	}
 
 	@Test
-	public void shouldMoveAPatientToLiveQueu() throws InterruptedException {
+	public void shouldMoveAPatientToLiveQueue() throws InterruptedException {
 		// GIVEN
 		final String queueId = "55ae222344zebfcdd19d7721";
 		final String appointmentId = "55ae228044webfcdd19d7720";
@@ -72,12 +72,12 @@ public class PatientQueueResourceTest extends AbstractResourceBaseConfig {
 		context.checking(new Expectations() {
 			{
 				oneOf(mockPatientQueueService)
-						.putOnHold(queueId, appointmentId);
+						.moveToLive(queueId, appointmentId);
 				will(returnValue(updatedPatientQueue));
 			}
 		});
 		// WHEN
-		ClientResponse response = resource().path(PATIENT_QUEUE_PUT_ONHOLD)
+		ClientResponse response = resource().path(PATIENT_QUEUE_MOVE_TO_LIVE)
 				.queryParam("qid", queueId).queryParam("aid", appointmentId)
 				.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON).put(ClientResponse.class);

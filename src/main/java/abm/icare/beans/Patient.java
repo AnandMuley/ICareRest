@@ -134,8 +134,6 @@ public class Patient implements Comparable<Patient> {
 
 	@Override
 	public int compareTo(Patient o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id.compareTo(o.id);
 	}
-
 }

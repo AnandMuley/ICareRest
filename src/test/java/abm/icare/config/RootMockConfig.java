@@ -16,4 +16,6 @@ public interface RootMockConfig {
 
 	String PATIENT_QUEUE_PUT_ONHOLD = "queue/putonhold";
 	String PATIENT_QUEUE_MOVE_TO_LIVE = "queue/movetolive";
+	
+	String SETUP_MEDICINES = "setup/medicines";
 }
