@@ -92,7 +92,7 @@ test{
 jacocoTestReport(){
  	afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['abm/icare/dtos/**','abm/icare/beans/**'])
+            fileTree(dir: it, exclude: ['abm/icare/dtos/**','abm/icare/beans/**','abm/icare/exceptions/**'])
         })
     }
 	reports{
