@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import abm.icare.beans.Appointment;
 import abm.icare.beans.PatientQueue;
@@ -86,21 +85,23 @@ public abstract class AppointmentDataProvider {
 		return appointments;
 	}
 
-	public static PatientQueue createPatientQueue() throws InterruptedException {
+	public static PatientQueue createPatientQueue() {
+		Calendar today = Calendar.getInstance();
 		PatientQueue patientQueue = new PatientQueue();
 		Appointment appointment = new Appointment();
 		appointment.setId("55ae228044webfcdd19d7720");
-		appointment.setRequestSubmittedOn(new Date());
-		TimeUnit.SECONDS.sleep(2);
+		appointment.setRequestSubmittedOn(today.getTime());
 		Appointment appointment2 = new Appointment();
 		appointment2.setId("55ae228044webfcdd19d7721");
-		appointment2.setRequestSubmittedOn(new Date());
+		today.add(Calendar.MINUTE, 2);
+		appointment2.setRequestSubmittedOn(today.getTime());
 		patientQueue.getLive().add(appointment);
 		patientQueue.getLive().add(appointment2);
 		return patientQueue;
 	}
 
-	public static PatientQueue patientQueueForDto() throws InterruptedException {
+	public static PatientQueue patientQueueForDto() {
+		Calendar submittedOn = Calendar.getInstance();
 		PatientQueue patientQueue = new PatientQueue();
 		patientQueue.setId("55ae222344zebfcdd19d7721");
 		Appointment appointment = new Appointment();
@@ -111,8 +112,8 @@ public abstract class AppointmentDataProvider {
 		appointment.setLastName("Ranawat");
 		appointment.setMobileNo(7890098700l);
 		appointment.setName("Arjun Ranawat");
-		appointment.setRequestSubmittedOn(new Date());
-		TimeUnit.SECONDS.sleep(2);
+		appointment.setRequestSubmittedOn(submittedOn.getTime());
+		submittedOn.add(Calendar.MINUTE, 2);
 		Appointment appointment2 = new Appointment();
 		appointment2.setDatedOn("20-Sep-2015");
 		appointment2.setEmailId("rahul@gmail.com");
@@ -121,69 +122,69 @@ public abstract class AppointmentDataProvider {
 		appointment2.setLastName("Verma");
 		appointment2.setMobileNo(9878978900l);
 		appointment2.setName("Rahul Verma");
-		appointment2.setRequestSubmittedOn(new Date());
+		appointment2.setRequestSubmittedOn(submittedOn.getTime());
 		patientQueue.getLive().add(appointment);
 		patientQueue.getOnhold().add(appointment2);
 		return patientQueue;
 	}
 
-	public static PatientQueue movingPatientToLiveQueue()
-			throws InterruptedException {
+	public static PatientQueue movingPatientToLiveQueue() {
+		Calendar submittedOn = Calendar.getInstance();
 		PatientQueue patientQueue = new PatientQueue();
 		patientQueue.setId("55ae222344zebfcdd19d7721");
 		Appointment appointment = new Appointment();
 		appointment.setId("55ae228044webfcdd19d7720");
-		appointment.setRequestSubmittedOn(new Date());
-		TimeUnit.SECONDS.sleep(2);
+		appointment.setRequestSubmittedOn(submittedOn.getTime());
+		submittedOn.add(Calendar.MINUTE, 2);
 		Appointment appointment2 = new Appointment();
 		appointment2.setId("55ae222312zebfcdd19d7722");
-		appointment2.setRequestSubmittedOn(new Date());
+		appointment2.setRequestSubmittedOn(submittedOn.getTime());
 		patientQueue.getLive().add(appointment);
 		patientQueue.getOnhold().add(appointment2);
 		return patientQueue;
 	}
 
-	public static PatientQueue puttingAPatientOnHold()
-			throws InterruptedException {
+	public static PatientQueue puttingAPatientOnHold() {
+		Calendar submittedOn = Calendar.getInstance();
 		PatientQueue patientQueue = new PatientQueue();
 		patientQueue.setId("55ae222344zebfcdd19d7721");
 		Appointment appointment = new Appointment();
 		appointment.setId("55ae228044webfcdd19d7720");
-		appointment.setRequestSubmittedOn(new Date());
-		TimeUnit.SECONDS.sleep(2);
+		appointment.setRequestSubmittedOn(submittedOn.getTime());
+		submittedOn.add(Calendar.MINUTE, 2);
 		Appointment appointment2 = new Appointment();
 		appointment2.setId("55ae222312zebfcdd19d7722");
-		appointment2.setRequestSubmittedOn(new Date());
+		appointment2.setRequestSubmittedOn(submittedOn.getTime());
 		patientQueue.getLive().add(appointment);
 		patientQueue.getOnhold().add(appointment2);
 		return patientQueue;
 	}
 
-	public static List<AppointmentDto> createAppointmentsDtos()
-			throws InterruptedException {
+	public static List<AppointmentDto> createAppointmentsDtos() {
+		Calendar submittedOn = Calendar.getInstance();
 		AppointmentDto appointment = new AppointmentDto();
 		appointment.setId("55ae228044webfcdd19d7720");
-		appointment.setRequestSubmittedOn(new Date());
-		TimeUnit.SECONDS.sleep(2);
+		appointment.setRequestSubmittedOn(submittedOn.getTime());
+		submittedOn.add(Calendar.MINUTE, 2);
 		AppointmentDto appointment2 = new AppointmentDto();
 		appointment2.setId("55ae228044webfcdd19d7721");
-		appointment2.setRequestSubmittedOn(new Date());
+		appointment2.setRequestSubmittedOn(submittedOn.getTime());
 		List<AppointmentDto> appointmentDtos = new ArrayList<AppointmentDto>();
 		appointmentDtos.add(appointment);
 		appointmentDtos.add(appointment2);
 		return appointmentDtos;
 	}
 
-	public static PatientQueue createPatientQueueOnhold()
-			throws InterruptedException {
+	public static synchronized PatientQueue createPatientQueueOnhold() {
+		Calendar calendar = Calendar.getInstance();
 		PatientQueue patientQueue = new PatientQueue();
 		Appointment appointment = new Appointment();
 		appointment.setId("55ae228044webfcdd19d7720");
-		appointment.setRequestSubmittedOn(new Date());
-		TimeUnit.SECONDS.sleep(2);
+		appointment.setRequestSubmittedOn(calendar.getTime());
+		calendar.add(Calendar.MINUTE, 2);
 		Appointment appointment2 = new Appointment();
 		appointment2.setId("55ae228044webfcdd19d7721");
-		appointment2.setRequestSubmittedOn(new Date());
+		appointment2.setRequestSubmittedOn(calendar.getTime());
 		patientQueue.getOnhold().add(appointment);
 		patientQueue.getOnhold().add(appointment2);
 		return patientQueue;

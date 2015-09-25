@@ -1,7 +1,7 @@
 package abm.icare.dtos;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class PatientQueueDto {
 
 	private String id;
-	private Set<AppointmentDto> live = new TreeSet<AppointmentDto>();
-	private Set<AppointmentDto> onhold = new TreeSet<AppointmentDto>();
+	private Queue<AppointmentDto> live = new PriorityQueue<AppointmentDto>();
+	private Queue<AppointmentDto> onhold = new PriorityQueue<AppointmentDto>();
 
 	public String getId() {
 		return id;
@@ -23,11 +23,11 @@ public class PatientQueueDto {
 		this.id = id;
 	}
 
-	public Set<AppointmentDto> getLive() {
+	public Queue<AppointmentDto> getLive() {
 		return live;
 	}
 
-	public Set<AppointmentDto> getOnhold() {
+	public Queue<AppointmentDto> getOnhold() {
 		return onhold;
 	}
 }
