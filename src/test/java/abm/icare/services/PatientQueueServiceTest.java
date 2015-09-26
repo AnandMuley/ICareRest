@@ -139,55 +139,9 @@ public class PatientQueueServiceTest extends SpringTestNGSupport {
 
 		// THEN
 		Assert.assertEquals(patientQueueUpdated2.getOnhold().size(), 0);
-		Iterator<Appointment> iter = patientQueueUpdated2.getLive().iterator();
-		Assert.assertEquals(iter.next().getId(), firstAppointment);
-		Assert.assertEquals(iter.next().getId(), secondAppointment);
-	}
-
-	@Test
-	public void shouldMoveAPatientToLiveQueueNoneToMove() {
-		// GIVEN
-		final String appointmentId = "55ae228044webfcdd19d7720";
-		final PatientQueue patientQueue = AppointmentDataProvider
-				.createPatientQueueOnhold();
-
-		context.checking(new Expectations() {
-			{
-				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
-				will(returnValue(patientQueue));
-				oneOf(mockPatientQueueRepository).save(
-						with(any(PatientQueue.class)));
-			}
-		});
-
-		// WHEN moving patient1
-		final PatientQueue patientQueueUpdated = patientQueueService
-				.moveToLive(QUEUE_ID, appointmentId);
-
-		// THEN
-		Assert.assertEquals(patientQueueUpdated.getOnhold().size(), 1);
-		Assert.assertEquals(patientQueueUpdated.getLive().iterator().next()
-				.getId(), appointmentId);
-
-		context.checking(new Expectations() {
-			{
-				oneOf(mockPatientQueueRepository).findOne(with(QUEUE_ID));
-				will(returnValue(patientQueueUpdated));
-				oneOf(mockPatientQueueRepository).save(
-						with(any(PatientQueue.class)));
-			}
-		});
-
-		// WHEN moving patient2
-		String appointmentId2 = "55ae228044webfcdd19d7721";
-		PatientQueue patientQueueUpdated2 = patientQueueService.moveToLive(
-				QUEUE_ID, appointmentId2);
-
-		// THEN
-		Assert.assertEquals(patientQueueUpdated2.getOnhold().size(), 0);
 		Iterator<Appointment> itr = patientQueueUpdated2.getLive().iterator();
-		Assert.assertEquals(itr.next().getId(), appointmentId2);
-		Assert.assertEquals(itr.next().getId(), appointmentId);
+		Assert.assertEquals(itr.next().getId(), "55ae228044webfcdd19d7720");
+		Assert.assertEquals(itr.next().getId(), "55ae228044webfcdd19d7721");
 	}
 
 	@Test

@@ -1,7 +1,6 @@
 package abm.icare.beans;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -17,14 +16,14 @@ public class PatientQueue {
 	@Id
 	private String id;
 	private String datedOn;
-	private Set<Appointment> live = new HashSet<Appointment>();
-	private Set<Appointment> onhold = new HashSet<Appointment>();
+	private TreeSet<Appointment> live = new TreeSet<Appointment>();
+	private TreeSet<Appointment> onhold = new TreeSet<Appointment>();
 
-	public Set<Appointment> getLive() {
+	public TreeSet<Appointment> getLive() {
 		return live;
 	}
 
-	public Set<Appointment> getOnhold() {
+	public TreeSet<Appointment> getOnhold() {
 		return onhold;
 	}
 

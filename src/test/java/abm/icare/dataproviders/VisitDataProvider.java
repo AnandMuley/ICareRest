@@ -3,16 +3,16 @@ package abm.icare.dataproviders;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import abm.icare.beans.Visit;
 import abm.icare.dtos.VisitDto;
 
 public abstract class VisitDataProvider {
 
-	static Set<String> prescriptions = new HashSet<String>(
+	static Set<String> prescriptions = new TreeSet<String>(
 			Arrays.asList("Crocin"));
 
 	public static VisitDto createVisitDto() {

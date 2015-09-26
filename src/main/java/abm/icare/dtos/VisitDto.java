@@ -1,8 +1,8 @@
 package abm.icare.dtos;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -16,7 +16,7 @@ public class VisitDto {
 	private String patientId;
 	private String symptoms;
 	private String allergies;
-	private Set<String> prescriptions = new HashSet<String>();
+	private Set<String> prescriptions = new TreeSet<String>();
 	private Date visitedOn;
 
 	public String getId() {
