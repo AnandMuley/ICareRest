@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import abm.icare.beans.Medicine;
+import abm.icare.beans.UserBean;
+import abm.icare.constants.UserRole;
 import abm.icare.repositories.MedicineRepository;
+import abm.icare.repositories.UserRepository;
 
 @Component
 @Path("setup")
@@ -16,6 +19,9 @@ public class SampleDataSetupResource {
 
 	@Autowired
 	private MedicineRepository medicineRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@GET
 	@Path("medicines")
@@ -37,4 +43,19 @@ public class SampleDataSetupResource {
 		return Response.ok("Medicines Data Setup Successfully !").build();
 	}
 
+	@GET
+	@Path("users")
+	public Response setUpUsers() {
+		UserBean doctor = new UserBean();
+		doctor.setPassword("Doctor@123");
+		doctor.setUsername("doctor");
+		doctor.setUserRole(UserRole.DOCTOR);
+		UserBean compounder = new UserBean();
+		compounder.setPassword("Compounder@123");
+		compounder.setUsername("compounder");
+		compounder.setUserRole(UserRole.COMPOUNDER);
+		userRepository.save(doctor);
+		userRepository.save(compounder);
+		return Response.ok().build();
+	}
 }
