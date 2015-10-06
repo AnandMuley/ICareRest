@@ -5,7 +5,7 @@ apply plugin: 'war'
 apply plugin: 'jetty'
 apply plugin: "jacoco"
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 version = '1.0'
 def SpringVersion = '4.0.0.RELEASE'
 def HamcrestVersion = '1.3'
@@ -36,7 +36,8 @@ ext{
             jdbc          	: "org.springframework:spring-jdbc:${SpringVersion}",
             jpa         	: "org.springframework.data:spring-data-jpa:1.8.1.RELEASE",
 			mongo 			: "org.springframework.data:spring-data-mongodb:1.7.1.RELEASE",
-            test          	: "org.springframework:spring-test:${SpringVersion}"
+            test          	: "org.springframework:spring-test:${SpringVersion}",
+            security 		: "org.springframework.security:spring-security-web:${SpringVersion}"
     ]
     
     javax = [
@@ -112,7 +113,7 @@ dependencies {
             exclude module : 'hamcrest-core'
     }
     compile jersey.server,jersey.inmemorytest,fasterXml.jsonprovider,jersey.spring,jersey.client,jersey.json
-	compile spring.mongo,spring.jpa,spring.core,spring.web,spring.webmvc
+	compile spring.mongo,spring.jpa,spring.core,spring.web,spring.webmvc,spring.security
 	compile jodatime
     testCompile testng,jmock.core,jmock.legacy,jersey.client,spring.test
 }
