@@ -5,14 +5,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserSessionDto {
 
-	private byte[] authcode;
+	private boolean loggedIn;
+	private String role;
 
-	public byte[] getAuthcode() {
-		return authcode;
+	public boolean isLoggedIn() {
+		return loggedIn;
 	}
 
-	public void setAuthcode(byte[] authcode) {
-		this.authcode = authcode;
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "UserSessionDto [loggedIn=" + loggedIn + ", role=" + role + "]";
 	}
 
 }

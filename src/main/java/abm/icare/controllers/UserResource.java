@@ -1,8 +1,5 @@
 package abm.icare.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -43,18 +40,9 @@ public class UserResource {
 			@Context HttpServletRequest httpServletRequest) {
 		boolean authorized = userService.isAuthenticated(username, password);
 		UserSessionDto sessionDto = context.getBean(UserSessionDto.class);
-		try {
-			if (authorized) {
-				httpServletRequest.getSession(true).setAttribute("authcode",
-						password.hashCode());
-				sessionDto.setAuthcode(sessionManagerService.encode(password));
-			}
-		} catch (NoSuchAlgorithmException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
-		} catch (UnsupportedEncodingException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+		if (authorized) {
+			httpServletRequest.getSession(true).setAttribute("sessionDto",
+					sessionDto);
 		}
 		return Response.ok(sessionDto).build();
 	}
