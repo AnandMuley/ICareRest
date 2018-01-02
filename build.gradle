@@ -17,6 +17,8 @@ jar {
     }
 }
 
+httpPort=8091
+
 ext{
 	
 	 commons = [
